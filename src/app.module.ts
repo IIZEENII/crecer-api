@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RecipesModule } from './recipes/infrastructure/recipes.module';
 import { Recipe } from './recipes/domain/recipe';
+import { EmployeesModule } from './employees/infrastructure/employees.module';
+import { Empoloyee } from './employees/domain/employee';
 
 @Module({
   imports: [
@@ -14,10 +16,11 @@ import { Recipe } from './recipes/domain/recipe';
       username: 'postgres',
       password: 'Utmisjimenez21032002',
       database: 'crecer-database',
-      entities: [Recipe],
+      entities: [Recipe, Empoloyee],
       synchronize: true,
     }),
     RecipesModule,
+    EmployeesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
