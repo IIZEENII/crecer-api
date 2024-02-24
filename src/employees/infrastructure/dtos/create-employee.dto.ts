@@ -1,4 +1,4 @@
 export class CreateEmployeeDto {
-  fistname: string;
+  firstname: string;
   lastname: string;
 }
