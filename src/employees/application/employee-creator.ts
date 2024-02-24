@@ -1,14 +1,14 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Empoloyee } from '../domain/employee';
+import { Employee } from '../domain/employee';
 import { CreateEmployeeDto } from '../infrastructure/dtos/create-employee.dto';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class EmployeeCreator {
   constructor(
-    @InjectRepository(Empoloyee)
-    private readonly employeeRepository: Repository<Empoloyee>,
+    @InjectRepository(Employee)
+    private readonly employeeRepository: Repository<Employee>,
   ) {}
 
   async create(createEmployeeDto: CreateEmployeeDto): Promise<void> {
