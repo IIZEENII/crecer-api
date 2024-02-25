@@ -13,9 +13,9 @@ export class Product {
   id: string;
   @Column()
   name: string;
-  @Column({ default: 0 })
+  @Column({ type: 'money', default: 0 })
   price: number;
-  @Column({ default: 0 })
+  @Column({ type: 'money', default: 0 })
   stock: number;
   @OneToOne(() => RecipeVariant, (recipeVariant) => recipeVariant.product)
   @JoinColumn()
