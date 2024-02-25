@@ -10,6 +10,8 @@ import { RecipeVariantsModule } from './recipe-variants/infrastructure/recipe-va
 import { RecipeVariant } from './recipe-variants/domain/recipe-variant';
 import { ProceduresModule } from './procedures/infrastructure/procedures.module';
 import { Procedure } from './procedures/domain/procedure';
+import { ProductsModule } from './products/infrastructure/products.module';
+import { Product } from './products/domain/product';
 
 @Module({
   imports: [
@@ -20,13 +22,14 @@ import { Procedure } from './procedures/domain/procedure';
       username: 'postgres',
       password: 'Utmisjimenez21032002',
       database: 'crecer-database',
-      entities: [Recipe, RecipeVariant, Procedure, Employee],
+      entities: [Recipe, RecipeVariant, Procedure, Product, Employee],
       synchronize: true,
     }),
     RecipesModule,
     EmployeesModule,
     RecipeVariantsModule,
     ProceduresModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
