@@ -12,6 +12,8 @@ export class ProcedureCreator {
   ) {}
 
   async create(createProcedureDto: CreateProcedureDto): Promise<void> {
-    this.procedureRepository.create(createProcedureDto);
+    const procedureCreated =
+      this.procedureRepository.create(createProcedureDto);
+    this.procedureRepository.save(procedureCreated);
   }
 }
