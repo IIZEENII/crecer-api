@@ -14,7 +14,7 @@ export class Recipe {
   @Column({ type: 'enum', enum: Privacity, default: Privacity.PRIVATE })
   privacity: Privacity;
   @Column({ type: 'enum', enum: Categories })
-  categories: Categories;
+  category: Categories;
   @OneToMany(() => RecipeVariant, (recipeVariant) => recipeVariant.recipe)
   variants: RecipeVariant[];
 }
