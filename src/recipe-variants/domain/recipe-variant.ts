@@ -1,10 +1,12 @@
 import { Procedure } from 'src/procedures/domain/procedure';
+import { Product } from 'src/products/domain/product';
 import { Recipe } from 'src/recipes/domain/recipe';
 import {
   Column,
   Entity,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -18,4 +20,6 @@ export class RecipeVariant {
   procedures: Procedure[];
   @ManyToOne(() => Recipe, (recipe) => recipe.variants)
   recipe: Recipe;
+  @OneToOne(() => Product, (product) => product.recipeVariant)
+  product: Product;
 }
