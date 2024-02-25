@@ -1,20 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { RecipeVariant } from '../domain/recipe-variant';
-import { Repository } from 'typeorm';
 import { CreateRecipeVariantDto } from '../infrastructure/dtos/create-recipe-variant.dto';
+import { UnitOfWorkVariantsAndProducts } from 'src/shared/infrastructure/unit-of-work/unit-of-work-variants-and-products';
 
 @Injectable()
 export class RecipeVariantCreator {
-  constructor(
-    @InjectRepository(RecipeVariant)
-    private readonly recipeVariantRepository: Repository<RecipeVariant>,
-  ) {}
+  constructor(private readonly unitOfWork: UnitOfWorkVariantsAndProducts) {}
 
   async create(createRecipeVariantDto: CreateRecipeVariantDto): Promise<void> {
-    const recipeVariantCreated = this.recipeVariantRepository.create(
-      createRecipeVariantDto,
-    );
-    this.recipeVariantRepository.save(recipeVariantCreated);
+    try {
+      await this.unitOfWork.beginTransaction();
+
+      const recipeVariantCreated =
+        this.unitOfWork.recipeVariantRepository.create(createRecipeVariantDto);
+
+      await this.unitOfWork.recipeVariantRepository.save(recipeVariantCreated);
+
+      const productCreated = this.unitOfWork.productRepository.create({
+        name: recipeVariantCreated.name,
+        recipeVariant: recipeVariantCreated,
+      });
+
+      await this.unitOfWork.productRepository.save(productCreated);
+      await this.unitOfWork.commitTransaction();
+    } catch (error) {
+      await this.unitOfWork.rollbackTransaction();
+    }
   }
 }
