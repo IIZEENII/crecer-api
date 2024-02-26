@@ -10,6 +10,6 @@ export class RecipeVariantsController {
   async cloneVariant(
     @Body() cloneRecipeVariantDto: CloneRecipeVariantDto,
   ): Promise<void> {
-    this.recipeVariantsService.cloneVariant(cloneRecipeVariantDto);
+    this.recipeVariantsService.clone(cloneRecipeVariantDto);
   }
 }

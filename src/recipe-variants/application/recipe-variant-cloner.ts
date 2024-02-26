@@ -11,12 +11,10 @@ export class RecipeVariantCloner {
     private readonly recipeVariantRepository: Repository<RecipeVariant>,
   ) {}
 
-  async cloneVariant(
-    cloneRecipeVariantDto: CloneRecipeVariantDto,
-  ): Promise<void> {
+  async clone(cloneRecipeVariantDto: CloneRecipeVariantDto): Promise<void> {
     const referenceOfTheVariant =
       await this.recipeVariantRepository.findOneByOrFail({
-        id: cloneRecipeVariantDto.idOfTheReferenceToClone,
+        id: cloneRecipeVariantDto.idOfTheVariantToClone,
       });
 
     delete referenceOfTheVariant.id;

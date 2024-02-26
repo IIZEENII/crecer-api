@@ -1,4 +1,4 @@
 export class CloneRecipeVariantDto {
-  idOfTheReferenceToClone: string;
+  idOfTheVariantToClone: string;
   nameOfTheVariantClone: string;
 }
