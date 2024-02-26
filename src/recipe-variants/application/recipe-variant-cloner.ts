@@ -23,10 +23,10 @@ export class RecipeVariantCloner {
     delete referenceOfTheVariant.id;
     referenceOfTheVariant.name = cloneRecipeVariantDto.nameOfTheVariantClone;
 
-    const clonOfTheReference = this.recipeVariantRepository.create(
+    const cloneOfTheReference = this.recipeVariantRepository.create(
       referenceOfTheVariant,
     );
 
-    await this.recipeVariantRepository.save(clonOfTheReference);
+    await this.recipeVariantRepository.save(cloneOfTheReference);
   }
 }
