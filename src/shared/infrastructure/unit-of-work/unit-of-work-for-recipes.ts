@@ -17,7 +17,7 @@ export class UnitOfWorkForRecipes implements UnitOfWork {
 
   async beginTransaction(): Promise<void> {
     this.queryRunner = this.entityManager.connection.createQueryRunner();
-    this.queryRunner.startTransaction();
+    await this.queryRunner.startTransaction();
   }
 
   async commitTransaction(): Promise<void> {
