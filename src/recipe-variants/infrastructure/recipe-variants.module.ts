@@ -5,7 +5,7 @@ import { RecipeVariantCreator } from '../application/recipe-variant-creator';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RecipeVariant } from '../domain/recipe-variant';
 import { UnitOfWorkForRecipes } from 'src/shared/infrastructure/unit-of-work/unit-of-work-for-recipes';
-import { RecipeVariantCloner } from '../application/recipe-variant-cloner';
+import { RecipeVariantCopier } from '../application/recipe-variant-copier';
 
 @Module({
   imports: [TypeOrmModule.forFeature([RecipeVariant])],
@@ -13,7 +13,7 @@ import { RecipeVariantCloner } from '../application/recipe-variant-cloner';
   providers: [
     RecipeVariantsService,
     RecipeVariantCreator,
-    RecipeVariantCloner,
+    RecipeVariantCopier,
     UnitOfWorkForRecipes,
   ],
 })

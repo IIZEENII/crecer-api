@@ -1,6 +1,6 @@
 import { Body, Controller, Param, Post } from '@nestjs/common';
 import { RecipeVariantsService } from './recipe-variants.service';
-import { CreateRecipeVariantCloneDto } from './dtos/create-recipe-variant-clone.dto';
+import { RecipeVariantCopyNameDto } from './dtos/recipe-variant-copy-name.dto';
 
 @Controller('recipe-variants')
 export class RecipeVariantsController {
@@ -8,9 +8,12 @@ export class RecipeVariantsController {
 
   @Post(':id')
   async cloneVariant(
-    @Param('id') idOfVariantToClone: string,
-    @Body() cloneRecipeVariantDto: CreateRecipeVariantCloneDto,
+    @Param('id') originalRecipeVariantId: string,
+    @Body() recipeVariantCopyNameDto: RecipeVariantCopyNameDto,
   ): Promise<void> {
-    this.recipeVariantsService.clone(idOfVariantToClone, cloneRecipeVariantDto);
+    this.recipeVariantsService.copy(
+      originalRecipeVariantId,
+      recipeVariantCopyNameDto,
+    );
   }
 }
