@@ -2,7 +2,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { RecipeVariant } from '../domain/recipe-variant';
 import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import { CloneRecipeVariantDto } from '../infrastructure/dtos/clone-recipe-variant.dto';
+import { CreateRecipeVariantCloneDto } from '../infrastructure/dtos/create-clone-recipe-variant.dto';
 
 @Injectable()
 export class RecipeVariantCloner {
@@ -12,21 +12,19 @@ export class RecipeVariantCloner {
   ) {}
 
   async clone(
-    idOfTheVariantToClone: string,
-    cloneRecipeVariantDto: CloneRecipeVariantDto,
+    originalVariantId: string,
+    cloneRecipeVariantDto: CreateRecipeVariantCloneDto,
   ): Promise<void> {
-    const referenceOfTheVariant =
-      await this.recipeVariantRepository.findOneByOrFail({
-        id: idOfTheVariantToClone,
-      });
+    const originalVariant = await this.recipeVariantRepository.findOneByOrFail({
+      id: originalVariantId,
+    });
 
-    delete referenceOfTheVariant.id;
-    referenceOfTheVariant.name = cloneRecipeVariantDto.nameOfTheVariantClone;
+    delete originalVariant.id;
+    originalVariant.name = cloneRecipeVariantDto.nameOfTheVariantClone;
 
-    const cloneOfTheReference = this.recipeVariantRepository.create(
-      referenceOfTheVariant,
-    );
+    const cloneOfTheOriginalVariant =
+      this.recipeVariantRepository.create(originalVariant);
 
-    await this.recipeVariantRepository.save(cloneOfTheReference);
+    await this.recipeVariantRepository.save(cloneOfTheOriginalVariant);
   }
 }

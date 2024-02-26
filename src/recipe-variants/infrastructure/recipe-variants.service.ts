@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { RecipeVariantCreator } from '../application/recipe-variant-creator';
 import { CreateRecipeVariantDto } from './dtos/create-recipe-variant.dto';
 import { RecipeVariantCloner } from '../application/recipe-variant-cloner';
-import { CloneRecipeVariantDto } from './dtos/clone-recipe-variant.dto';
+import { CreateRecipeVariantCloneDto } from './dtos/create-clone-recipe-variant.dto';
 
 @Injectable()
 export class RecipeVariantsService {
@@ -17,7 +17,7 @@ export class RecipeVariantsService {
 
   async clone(
     idOfVariantToClone: string,
-    cloneRecipeVariantDto: CloneRecipeVariantDto,
+    cloneRecipeVariantDto: CreateRecipeVariantCloneDto,
   ): Promise<void> {
     this.recipeVariantCloner.clone(idOfVariantToClone, cloneRecipeVariantDto);
   }
