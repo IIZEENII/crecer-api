@@ -15,7 +15,10 @@ export class RecipeVariantsService {
     this.recipeVariantCreator.create(createRecipeVariantDto);
   }
 
-  async clone(cloneRecipeVariantDto: CloneRecipeVariantDto): Promise<void> {
-    this.recipeVariantCloner.clone(cloneRecipeVariantDto);
+  async clone(
+    idOfVariantToClone: string,
+    cloneRecipeVariantDto: CloneRecipeVariantDto,
+  ): Promise<void> {
+    this.recipeVariantCloner.clone(idOfVariantToClone, cloneRecipeVariantDto);
   }
 }
