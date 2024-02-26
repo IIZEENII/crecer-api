@@ -2,6 +2,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { RecipeVariant } from '../domain/recipe-variant';
 import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
+import { CloneRecipeVariantDto } from '../infrastructure/dtos/clone-recipe-variant.dto';
 
 @Injectable()
 export class RecipeVariantCloner {
@@ -10,18 +11,21 @@ export class RecipeVariantCloner {
     private readonly recipeVariantRepository: Repository<RecipeVariant>,
   ) {}
 
-  async cloneVariant(idOfTheReferenceToClone: string): Promise<void> {
+  async cloneVariant(
+    cloneRecipeVariantDto: CloneRecipeVariantDto,
+  ): Promise<void> {
     const referenceOfTheVariant =
       await this.recipeVariantRepository.findOneByOrFail({
-        id: idOfTheReferenceToClone,
+        id: cloneRecipeVariantDto.idOfTheReferenceToClone,
       });
 
     delete referenceOfTheVariant.id;
+    referenceOfTheVariant.name = cloneRecipeVariantDto.nameOfTheVariantClone;
 
-    const variantCloned = this.recipeVariantRepository.create(
+    const clonOfTheReference = this.recipeVariantRepository.create(
       referenceOfTheVariant,
     );
 
-    await this.recipeVariantRepository.save(variantCloned);
+    await this.recipeVariantRepository.save(clonOfTheReference);
   }
 }
