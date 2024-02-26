@@ -4,9 +4,10 @@ import { EntityManager, QueryRunner, Repository } from 'typeorm';
 import { UnitOfWork } from './unit-of-work';
 import { RecipeVariant } from 'src/recipe-variants/domain/recipe-variant';
 import { Product } from 'src/products/domain/product';
+import { Recipe } from 'src/recipes/domain/recipe';
 
 @Injectable()
-export class UnitOfWorkVariantsAndProducts implements UnitOfWork {
+export class UnitOfWorkForRecipes implements UnitOfWork {
   private queryRunner: QueryRunner;
 
   constructor(
@@ -38,6 +39,10 @@ export class UnitOfWorkVariantsAndProducts implements UnitOfWork {
       await this.queryRunner.release();
       this.queryRunner = null;
     }
+  }
+
+  get recipeRepository(): Repository<Recipe> {
+    return this.queryRunner.manager.getRepository(Recipe);
   }
 
   get recipeVariantRepository(): Repository<RecipeVariant> {
