@@ -18,7 +18,7 @@ export class Product {
   price: number;
   @Column({ type: 'money', default: 0 })
   stock: number;
-  @Column()
+  @Column({ nullable: true })
   description: string;
   @Column({ type: 'enum', enum: Categories })
   category: Categories;
