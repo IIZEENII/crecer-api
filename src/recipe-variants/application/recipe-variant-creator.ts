@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRecipeVariantDto } from '../infrastructure/dtos/create-recipe-variant.dto';
-import { UnitOfWorkVariantsAndProducts } from 'src/shared/infrastructure/unit-of-work/unit-of-work-variants-and-products';
+import { UnitOfWorkForRecipes } from 'src/shared/infrastructure/unit-of-work/unit-of-work-for-recipes';
 
 @Injectable()
 export class RecipeVariantCreator {
-  constructor(private readonly unitOfWork: UnitOfWorkVariantsAndProducts) {}
+  constructor(private readonly unitOfWork: UnitOfWorkForRecipes) {}
 
   async create(createRecipeVariantDto: CreateRecipeVariantDto): Promise<void> {
     try {
@@ -23,6 +23,7 @@ export class RecipeVariantCreator {
       await this.unitOfWork.productRepository.save(productCreated);
       await this.unitOfWork.commitTransaction();
     } catch (error) {
+      console.log(error);
       await this.unitOfWork.rollbackTransaction();
     }
   }
