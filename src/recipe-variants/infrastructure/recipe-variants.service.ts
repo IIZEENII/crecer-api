@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { RecipeVariantCreator } from '../application/recipe-variant-creator';
 import { CreateRecipeVariantDto } from './dtos/create-recipe-variant.dto';
 import { RecipeVariantCloner } from '../application/recipe-variant-cloner';
-import { CreateRecipeVariantCloneDto } from './dtos/create-clone-recipe-variant.dto';
+import { CreateRecipeVariantCloneDto } from './dtos/create-recipe-variant-clone.dto';
 
 @Injectable()
 export class RecipeVariantsService {

@@ -2,7 +2,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { RecipeVariant } from '../domain/recipe-variant';
 import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import { CreateRecipeVariantCloneDto } from '../infrastructure/dtos/create-clone-recipe-variant.dto';
+import { CreateRecipeVariantCloneDto } from '../infrastructure/dtos/create-recipe-variant-clone.dto';
 
 @Injectable()
 export class RecipeVariantCloner {
