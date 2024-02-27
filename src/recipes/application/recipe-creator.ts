@@ -19,7 +19,6 @@ export class RecipeCreator {
         this.unitOfWork.recipeVariantRepository.create({
           name: 'variante_1',
           recipe: recipeCreated,
-          category: recipeCreated.category,
         });
 
       await this.unitOfWork.recipeVariantRepository.save(
