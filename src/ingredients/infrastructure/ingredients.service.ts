@@ -20,6 +20,6 @@ export class IngredientsService {
   }
 
   async findAll(): Promise<Ingredient[]> {
-    return this.ingredientFinder.findAll(id);
+    return this.ingredientFinder.findAll();
   }
 }
