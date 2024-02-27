@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { MeasurementUnits } from './measurement-units';
 
 @Entity('ingredients')
 export class Ingredient {
@@ -10,6 +11,6 @@ export class Ingredient {
   price: number;
   @Column('money')
   stock: number;
-  @Column()
-  unitType: string;
+  @Column({ type: 'enum', enum: MeasurementUnits })
+  measurementUnit: MeasurementUnits;
 }
