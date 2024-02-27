@@ -8,7 +8,7 @@ import { Ingredient } from '../domain/ingredient';
 export class IngredientsService {
   constructor(
     private readonly ingredientCreator: IngredientCreator,
-    private readonly ingredientFinder: IngredientFinder, 
+    private readonly ingredientFinder: IngredientFinder,
   ) {}
 
   async create(createIngredientDto: CreateIngredientDto): Promise<void> {
@@ -20,6 +20,6 @@ export class IngredientsService {
   }
 
   async findAll(): Promise<Ingredient[]> {
-    return this.ingredientFinder.findAll();
+    return this.ingredientFinder.findAll(id);
   }
 }
