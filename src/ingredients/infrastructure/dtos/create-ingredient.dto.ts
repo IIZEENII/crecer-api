@@ -1,8 +1,8 @@
-import { MeasurementUnits } from 'src/ingredients/domain/measurement-units';
+import { UnitType } from 'src/ingredients/domain/unit-types';
 
 export class CreateIngredientDto {
   name: string;
   price: number;
   stock: number;
-  measurementUnit: MeasurementUnits;
+  unitType: UnitType;
 }
