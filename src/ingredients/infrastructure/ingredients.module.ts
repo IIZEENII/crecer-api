@@ -5,7 +5,8 @@ import { IngredientCreator } from '../application/ingredient-creator';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Ingredient } from '../domain/ingredient';
 import { IngredientFinder } from '../application/ingredient-finder';
-import { SafeIngredientUpdaterForMeasurementUnit } from '../application/safe-ingredient-updater-for-measurement-unit';
+import { IngredientUpdater } from '../application/ingredient-updater';
+import { UnitOfWorkForRecipes } from 'src/shared/infrastructure/unit-of-work/unit-of-work-for-recipes';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Ingredient])],
@@ -14,7 +15,8 @@ import { SafeIngredientUpdaterForMeasurementUnit } from '../application/safe-ing
     IngredientsService,
     IngredientCreator,
     IngredientFinder,
-    SafeIngredientUpdaterForMeasurementUnit,
+    IngredientUpdater,
+    UnitOfWorkForRecipes,
   ],
 })
 export class IngredientsModule {}

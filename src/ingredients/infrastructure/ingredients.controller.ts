@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { IngredientsService } from './ingredients.service';
 import { CreateIngredientDto } from './dtos/create-ingredient.dto';
 import { Ingredient } from '../domain/ingredient';
-import { UpdateIngredientMeasurementDto } from './dtos/update-ingredient-measurement-unit.dto';
+import { UpdateIngredientUnitTypeDto } from './dtos/update-ingredient-unit-type.dto';
 
 @Controller('ingredients')
 export class IngredientsController {
@@ -25,14 +25,14 @@ export class IngredientsController {
     return this.ingredientsService.findAll();
   }
 
-  @Patch(':id/measurement-unit')
+  @Patch(':id/unit-type')
   async updateMeasurementUnit(
     @Param('id') id: string,
-    @Body() updateIngredientMeasurementDto: UpdateIngredientMeasurementDto,
+    @Body() updateIngredientUnitType: UpdateIngredientUnitTypeDto,
   ): Promise<void> {
-    this.ingredientsService.updateMeasurementUnit(
+    this.ingredientsService.updateIngredientUnitTypeIfNotInRecipeVariants(
       id,
-      updateIngredientMeasurementDto,
+      updateIngredientUnitType,
     );
   }
 }

@@ -3,15 +3,15 @@ import { IngredientCreator } from '../application/ingredient-creator';
 import { CreateIngredientDto } from './dtos/create-ingredient.dto';
 import { IngredientFinder } from '../application/ingredient-finder';
 import { Ingredient } from '../domain/ingredient';
-import { SafeIngredientUpdaterForMeasurementUnit } from '../application/safe-ingredient-updater-for-measurement-unit';
-import { UpdateIngredientMeasurementDto } from './dtos/update-ingredient-measurement-unit.dto';
+import { IngredientUpdater } from '../application/ingredient-updater';
+import { UpdateIngredientUnitTypeDto } from './dtos/update-ingredient-unit-type.dto';
 
 @Injectable()
 export class IngredientsService {
   constructor(
     private readonly ingredientCreator: IngredientCreator,
     private readonly ingredientFinder: IngredientFinder,
-    private readonly safeIngredientUpdaterForMeasurementUnit: SafeIngredientUpdaterForMeasurementUnit,
+    private readonly ingredientUpdater: IngredientUpdater,
   ) {}
 
   async create(createIngredientDto: CreateIngredientDto): Promise<void> {
@@ -26,14 +26,13 @@ export class IngredientsService {
     return this.ingredientFinder.findAll();
   }
 
-  async updateMeasurementUnit(
+  async updateIngredientUnitTypeIfNotInRecipeVariants(
     id: string,
-    updateIngredientMeasurementDto: UpdateIngredientMeasurementDto,
+    updateIngredientUnitTypeDto: UpdateIngredientUnitTypeDto,
   ): Promise<void> {
-    const ingredient = await this.ingredientFinder.findById(id);
-    this.safeIngredientUpdaterForMeasurementUnit.updateMeasurementUnit(
-      ingredient,
-      updateIngredientMeasurementDto,
+    this.ingredientUpdater.updateIngredientUnitTypeIfNotInRecipeVariants(
+      id,
+      updateIngredientUnitTypeDto,
     );
   }
 }
