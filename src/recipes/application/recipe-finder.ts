@@ -13,6 +13,12 @@ export class RecipeFinder {
   }
 
   findById(id: string): Promise<Recipe> {
-    return this.recipeRepository.findOne({ where: { id } });
+    return this.recipeRepository
+      .createQueryBuilder('recipe')
+      .innerJoinAndSelect('recipe.variants', 'variant')
+      .innerJoinAndSelect('variant.product', 'product')
+      .where('recipe.id = :id', { id })
+      .andWhere('product.id IS NOT NULL')
+      .getOne();
   }
 }

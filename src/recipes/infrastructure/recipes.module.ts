@@ -6,6 +6,7 @@ import { RecipeCreator } from '../application/recipe-creator';
 import { RecipeFinder } from '../application/recipe-finder';
 import { Recipe } from '../domain/recipe';
 import { UnitOfWorkForRecipes } from 'src/shared/infrastructure/unit-of-work/unit-of-work-for-recipes';
+import { RecipeUpdater } from '../application/recipe-updater';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Recipe])],
@@ -14,6 +15,7 @@ import { UnitOfWorkForRecipes } from 'src/shared/infrastructure/unit-of-work/uni
     RecipesService,
     RecipeCreator,
     RecipeFinder,
+    RecipeUpdater,
     UnitOfWorkForRecipes,
   ],
 })

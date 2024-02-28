@@ -15,6 +15,8 @@ export class Recipe {
   privacity: Privacity;
   @Column({ type: 'enum', enum: Categories })
   category: Categories;
-  @OneToMany(() => RecipeVariant, (recipeVariant) => recipeVariant.recipe)
+  @OneToMany(() => RecipeVariant, (recipeVariant) => recipeVariant.recipe, {
+    eager: true,
+  })
   variants: RecipeVariant[];
 }
