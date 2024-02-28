@@ -24,8 +24,8 @@ export class RecipeVariant {
   ingredients: Ingredient[];
   @OneToMany(() => Procedure, (procedure) => procedure.recipeVariant)
   procedures: Procedure[];
-  @ManyToOne(() => Recipe, (recipe) => recipe.variants, { eager: true })
+  @ManyToOne(() => Recipe, (recipe) => recipe.variants)
   recipe: Recipe;
-  @OneToOne(() => Product, (product) => product.recipeVariant)
+  @OneToOne(() => Product, (product) => product.recipeVariant, { eager: true })
   product: Product;
 }
