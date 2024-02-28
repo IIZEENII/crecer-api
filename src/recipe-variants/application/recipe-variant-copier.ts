@@ -1,32 +1,30 @@
-import { InjectRepository } from '@nestjs/typeorm';
 import { RecipeVariant } from '../domain/recipe-variant';
-import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { RecipeVariantCopyNameDto } from '../infrastructure/dtos/recipe-variant-copy-name.dto';
+import { UnitOfWorkForRecipes } from 'src/shared/infrastructure/unit-of-work/unit-of-work-for-recipes';
 
 @Injectable()
 export class RecipeVariantCopier {
-  constructor(
-    @InjectRepository(RecipeVariant)
-    private readonly recipeVariantRepository: Repository<RecipeVariant>,
-  ) {}
+  constructor(private readonly unitOfWork: UnitOfWorkForRecipes) {}
 
   async copy(
-    originalRecipeVariantId: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    { id, ...recipeVariantCopy }: RecipeVariant,
     recipeVariantCopyNameDto: RecipeVariantCopyNameDto,
   ): Promise<void> {
-    const originalRecipeVariant =
-      await this.recipeVariantRepository.findOneByOrFail({
-        id: originalRecipeVariantId,
+    try {
+      recipeVariantCopy.name = recipeVariantCopyNameDto.name;
+      await this.unitOfWork.beginTransaction();
+      await this.unitOfWork.recipeVariantRepository.save(recipeVariantCopy);
+      await this.unitOfWork.productRepository.insert({
+        name: recipeVariantCopy.name,
+        category: recipeVariantCopy.recipe.category,
+        recipeVariant: recipeVariantCopy,
       });
-
-    delete originalRecipeVariant.id;
-    originalRecipeVariant.name = recipeVariantCopyNameDto.name;
-
-    const recipeVariantCopy = this.recipeVariantRepository.create(
-      originalRecipeVariant,
-    );
-
-    await this.recipeVariantRepository.save(recipeVariantCopy);
+      await this.unitOfWork.commitTransaction();
+    } catch (error) {
+      console.log(error);
+      this.unitOfWork.rollbackTransaction();
+    }
   }
 }
