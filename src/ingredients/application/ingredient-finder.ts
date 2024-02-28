@@ -17,4 +17,16 @@ export class IngredientFinder {
   async findAll(): Promise<Ingredient[]> {
     return this.ingredientRepository.find();
   }
+
+  // TODO: check if inner Join get the ingredient or is omited and return 404 if not exists
+  async findJoinedWithRecipeVariantsAndProductsById(
+    id: string,
+  ): Promise<Ingredient> {
+    return this.ingredientRepository
+      .createQueryBuilder('ingredient')
+      .innerJoinAndSelect('ingredient.recipeVariants', 'recipeVariants')
+      .innerJoinAndSelect('product', 'product')
+      .where('ingredient.id :id', { id })
+      .getOne();
+  }
 }
