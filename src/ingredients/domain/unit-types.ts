@@ -1,4 +1,4 @@
-export enum MeasurementUnits {
+export enum UnitType {
   GR = 'gr',
   LT = 'lt',
   PZ = 'pz',
