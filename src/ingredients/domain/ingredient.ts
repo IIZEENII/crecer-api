@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { UnitType } from './unit-types';
-import { RecipeVariant } from 'src/recipe-variants/domain/recipe-variant';
+import { UnitType } from './UnitType';
+import { RecipeVariant } from '@src/recipe-variants/domain/RecipeVariant';
 
 @Entity('ingredients')
 export class Ingredient {

@@ -1,5 +1,5 @@
-import { RecipeVariant } from 'src/recipe-variants/domain/recipe-variant';
-import { Categories } from 'src/shared/domain/categories';
+import { RecipeVariant } from '@src/recipe-variants/domain/RecipeVariant';
+import { Categories } from 'src/shared/domain/Categories';
 import {
   Column,
   Entity,
