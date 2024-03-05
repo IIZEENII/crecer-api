@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { RecipeCreator } from '../application/RecipeCreator';
-import { CreateRecipeDto } from './dtos/CreateRecipeDto';
+import { CreateRecipeDto } from './dtos/CreateRecipe.dto';
 import { RecipeFinder } from '../application/RecipeFinder';
 import { Recipe } from '../domain/Recipe';
-import { RecipeUpdater } from '../application/RecipeUpdater';
-import { UpdateRecipeCategoryDto } from './dtos/UpdateRecipeCategoryDto';
+import { RecipeCategoryUpdater } from '../application/RecipeCategoryUpdater';
+import { UpdateRecipeCategoryDto } from './dtos/UpdateRecipeCategory.dto';
 
 @Injectable()
 export class RecipesService {
   constructor(
     private readonly recipeCreator: RecipeCreator,
     private readonly recipeFinder: RecipeFinder,
-    private readonly recipeUpdater: RecipeUpdater,
+    private readonly recipeCategoryUpdater: RecipeCategoryUpdater,
   ) {}
 
   async create(createRecipeDto: CreateRecipeDto): Promise<void> {
@@ -30,7 +30,6 @@ export class RecipesService {
     id: string,
     updateRecipeDto: UpdateRecipeCategoryDto,
   ): Promise<void> {
-    const recipe = await this.recipeFinder.findById(id);
-    this.recipeUpdater.updateCategory(recipe, updateRecipeDto);
+    this.recipeCategoryUpdater.update(id, updateRecipeDto);
   }
 }

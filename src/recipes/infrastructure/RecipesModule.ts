@@ -5,8 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { RecipeCreator } from '../application/RecipeCreator';
 import { RecipeFinder } from '../application/RecipeFinder';
 import { Recipe } from '../domain/Recipe';
-import { RecipeUpdater } from '../application/RecipeUpdater';
+import { RecipeCategoryUpdater } from '../application/RecipeCategoryUpdater';
 import { UnitOfWorkForRecipes } from 'src/shared/infrastructure/unit-of-work/UnitOfWorkForRecipes';
+import { RecipeFinderJoinedToRecipeVariantsAndProducts } from '../application/RecipeFinderJoinedToRecipeVariantsAndProducts';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Recipe])],
@@ -15,8 +16,9 @@ import { UnitOfWorkForRecipes } from 'src/shared/infrastructure/unit-of-work/Uni
     RecipesService,
     RecipeCreator,
     RecipeFinder,
-    RecipeUpdater,
+    RecipeCategoryUpdater,
     UnitOfWorkForRecipes,
+    RecipeFinderJoinedToRecipeVariantsAndProducts,
   ],
 })
 export class RecipesModule {}

@@ -12,16 +12,22 @@ import {
 export class Product {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
   @Column()
   name: string;
+
   @Column({ type: 'money', default: 0 })
   price: number;
+
   @Column({ type: 'money', default: 0 })
   stock: number;
+
   @Column({ nullable: true })
   description: string;
+
   @Column({ type: 'enum', enum: Categories })
   category: Categories;
+
   @OneToOne(() => RecipeVariant, (recipeVariant) => recipeVariant.product)
   @JoinColumn()
   recipeVariant: RecipeVariant;

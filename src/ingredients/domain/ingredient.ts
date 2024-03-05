@@ -6,14 +6,19 @@ import { RecipeVariant } from '@src/recipe-variants/domain/RecipeVariant';
 export class Ingredient {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
   @Column()
   name: string;
-  @Column('money')
+
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
   price: number;
-  @Column('money')
+
+  @Column('numeric')
   stock: number;
+
   @Column({ type: 'enum', enum: UnitType })
   unitType: UnitType;
+
   @ManyToMany(() => RecipeVariant, (recipeVariant) => recipeVariant.ingredients)
   recipeVariants: RecipeVariant[];
 }

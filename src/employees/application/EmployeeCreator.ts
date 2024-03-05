@@ -1,7 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Employee } from '../domain/employee';
-import { CreateEmployeeDto } from '../infrastructure/dtos/create-employee.dto';
+import { Employee } from '../domain/Employee';
+import { CreateEmployeeDto } from '../infrastructure/dtos/CreateEmployee.dto';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

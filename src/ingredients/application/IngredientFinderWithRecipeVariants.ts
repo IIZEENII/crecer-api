@@ -11,11 +11,7 @@ export class IngredientFinderJoinedToRecipeVariants {
   ) {}
 
   async findById(id: string): Promise<Ingredient> {
-    return this.ingredientRepository
-      .createQueryBuilder('ingredient')
-      .innerJoinAndSelect('ingredient.recipeVariants', 'recipeVariant')
-      .innerJoinAndSelect('recipeVariant.product', 'product')
-      .where('ingredient.id :id', { id })
-      .getOne();
+    // TODO: validate if element was found and get ingredients by recipe variants
+    return await this.ingredientRepository.findOneBy({ id });
   }
 }

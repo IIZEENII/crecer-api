@@ -1,9 +1,11 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
-import { CreateRecipeDto } from './dtos/CreateRecipeDto';
+import { CreateRecipeDto } from './dtos/CreateRecipe.dto';
 import { RecipesService } from './RecipesSservice';
 import { Recipe } from '../domain/Recipe';
-import { UpdateRecipeCategoryDto } from './dtos/UpdateRecipeCategoryDto';
+import { UpdateRecipeCategoryDto } from './dtos/UpdateRecipeCategory.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Recipes')
 @Controller('recipes')
 export class RecipesController {
   constructor(private readonly recipesService: RecipesService) {}

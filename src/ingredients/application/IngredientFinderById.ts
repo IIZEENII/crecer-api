@@ -1,7 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Ingredient } from '../domain/Ingredient';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class IngredientFinderById {
@@ -11,6 +11,12 @@ export class IngredientFinderById {
   ) {}
 
   async find(id: string): Promise<Ingredient> {
-    return this.ingredientRepository.findOneBy({ id });
+    const ingredientFound = await this.ingredientRepository.findOneBy({ id });
+
+    if (!ingredientFound) {
+      throw new NotFoundException('ingredient not found');
+    }
+
+    return ingredientFound;
   }
 }

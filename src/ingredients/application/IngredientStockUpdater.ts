@@ -1,8 +1,10 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Ingredient } from '../domain/Ingredient';
 import { Repository } from 'typeorm';
-import { UpdateIngredientStockDto } from '../infrastructure/dtos/UpdateIngredientStockDto';
+import { UpdateIngredientStockDto } from '../infrastructure/dtos/UpdateIngredientStock.dto';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class IngredientStockUpdater {
   constructor(
     @InjectRepository(Ingredient)
@@ -20,7 +22,7 @@ export class IngredientStockUpdater {
     }
   }
 
-  async tryToUpdate(
+  private async tryToUpdate(
     id: string,
     updateIngredientStockDto: UpdateIngredientStockDto,
   ): Promise<void> {

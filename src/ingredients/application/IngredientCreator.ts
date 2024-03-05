@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Ingredient } from '../domain/Ingredient';
 import { Repository } from 'typeorm';
-import { CreateIngredientDto } from '../infrastructure/dtos/CreateIngredientDto';
+import { CreateIngredientDto } from '../infrastructure/dtos/CreateIngredient.dto';
 
 @Injectable()
 export class IngredientCreator {
@@ -12,6 +12,6 @@ export class IngredientCreator {
   ) {}
 
   async create(createIngredientDto: CreateIngredientDto): Promise<void> {
-    this.ingredientRepository.insert(createIngredientDto);
+    await this.ingredientRepository.save(createIngredientDto);
   }
 }

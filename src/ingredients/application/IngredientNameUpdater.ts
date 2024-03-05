@@ -1,8 +1,10 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Ingredient } from '../domain/Ingredient';
 import { Repository } from 'typeorm';
-import { UpdateIngredientNameDto } from '../infrastructure/dtos/UpdateIngredientNameDto';
+import { UpdateIngredientNameDto } from '../infrastructure/dtos/UpdateIngredientName.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
+@Injectable()
 export class IngredientNameUpdater {
   constructor(
     @InjectRepository(Ingredient)
@@ -14,16 +16,24 @@ export class IngredientNameUpdater {
     updateIngredientNameDto: UpdateIngredientNameDto,
   ): Promise<void> {
     try {
-      this.tryToUpdate(id, updateIngredientNameDto);
+      return this.tryToUpdate(id, updateIngredientNameDto);
     } catch (error) {
       console.log(error);
     }
   }
 
-  async tryToUpdate(
+  private async tryToUpdate(
     id: string,
     updateIngredientNameDto: UpdateIngredientNameDto,
   ): Promise<void> {
-    this.ingredientRepository.update(id, updateIngredientNameDto);
+    const ingredientUpdated = await this.ingredientRepository.update(
+      id,
+      updateIngredientNameDto,
+    );
+
+    if (ingredientUpdated.affected != 1) {
+      // TODO: refactoring to custom exeption as ProductNotFoundExeption
+      throw new NotFoundException('ingredient not found');
+    }
   }
 }

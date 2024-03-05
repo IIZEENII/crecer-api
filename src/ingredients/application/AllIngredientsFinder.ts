@@ -18,7 +18,7 @@ export class AllIngredientsFinder {
     }
   }
 
-  async tryToFind() {
+  private async tryToFind(): Promise<Ingredient[]> {
     return this.ingredientRepository.find();
   }
 }

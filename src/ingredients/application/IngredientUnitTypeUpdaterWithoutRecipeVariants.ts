@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { UpdateIngredientUnitTypeDto } from '../infrastructure/dtos/UpdateIngredientUnitTypeDto';
+import { UpdateIngredientUnitTypeDto } from '../infrastructure/dtos/UpdateIngredientUnitType.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Ingredient } from '../domain/Ingredient';
@@ -18,7 +18,7 @@ export class IngredientUnitTypeUpdaterWithoutRecipeVariants {
     updateIngredientUnitTypeDto: UpdateIngredientUnitTypeDto,
   ): Promise<void> {
     try {
-      await this.tryToUpdate(id, updateIngredientUnitTypeDto);
+      return await this.tryToUpdate(id, updateIngredientUnitTypeDto);
     } catch (error) {
       console.log(error);
     }
@@ -27,18 +27,17 @@ export class IngredientUnitTypeUpdaterWithoutRecipeVariants {
   private async tryToUpdate(
     id: string,
     updateIngredientUnitTypeDto: UpdateIngredientUnitTypeDto,
-  ) {
+  ): Promise<void> {
     const ingredient =
       await this.ingredientFinderJoinedToRecipeVariants.findById(id);
-
-    if (!this.isIngredientInRecipeVariants(ingredient)) {
-      this.ingredientRepository.update(id, updateIngredientUnitTypeDto);
+    console.log(ingredient);
+    if (this.isIngredientInRecipeVariants(ingredient)) {
+      throw new BadRequestException();
     }
-
-    throw new BadRequestException();
+    this.ingredientRepository.update(id, updateIngredientUnitTypeDto);
   }
 
   private isIngredientInRecipeVariants(ingredient: Ingredient): boolean {
-    return ingredient.recipeVariants.length > 0;
+    return ingredient.recipeVariants ? true : false;
   }
 }

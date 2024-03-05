@@ -4,8 +4,10 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 export class Employee {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
   @Column()
   firstname: string;
+
   @Column()
   lastname: string;
 }
