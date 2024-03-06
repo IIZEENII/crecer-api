@@ -23,11 +23,11 @@ export class HttpExceptionFilter implements ExceptionFilter<HttpException> {
     const details = exception.getResponse() as ValidationResponse;
 
     response.status(status).json({
-      statusCode: status,
+      requestUrl: request.url,
       httpMethod: request.method,
+      statusCode: status,
       message: errorMessage,
       details: Array.isArray(details?.message) ? details.message : [],
-      path: request.url,
       timeStamp: new Date().toISOString(),
     });
   }

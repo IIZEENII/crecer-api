@@ -60,8 +60,9 @@ export class RecipeCategoryUpdater {
     products: Product[],
     category: Categories,
   ): Product[] {
-    return products.map((product) => {
-      return { category, ...product };
+    products.forEach((product) => {
+      product.category = category;
     });
+    return products;
   }
 }

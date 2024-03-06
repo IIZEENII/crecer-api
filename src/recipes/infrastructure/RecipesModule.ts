@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { RecipesService } from './RecipesSservice';
 import { RecipesController } from './RecipesController';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RecipeCreator } from '../application/RecipeCreator';
@@ -13,7 +12,6 @@ import { RecipeFinderJoinedToRecipeVariantsAndProducts } from '../application/Re
   imports: [TypeOrmModule.forFeature([Recipe])],
   controllers: [RecipesController],
   providers: [
-    RecipesService,
     RecipeCreator,
     RecipeFinder,
     RecipeCategoryUpdater,

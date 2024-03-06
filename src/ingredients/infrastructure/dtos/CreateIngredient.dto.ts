@@ -1,24 +1,24 @@
 import {
   IsEnum,
   IsInt,
-  IsNotEmpty,
   IsNumber,
-  IsPositive,
   IsString,
+  Length,
+  Min,
 } from 'class-validator';
 import { UnitType } from 'src/ingredients/domain/UnitType';
 
 export class CreateIngredientDto {
   @IsString()
-  @IsNotEmpty()
+  @Length(1, 64)
   name: string;
 
   @IsNumber()
-  @IsPositive()
+  @Min(0)
   price: number;
 
   @IsInt()
-  @IsPositive()
+  @Min(0)
   stock: number;
 
   @IsEnum(UnitType)

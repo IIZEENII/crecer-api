@@ -1,35 +1,42 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { CreateRecipeDto } from './dtos/CreateRecipe.dto';
-import { RecipesService } from './RecipesSservice';
 import { Recipe } from '../domain/Recipe';
 import { UpdateRecipeCategoryDto } from './dtos/UpdateRecipeCategory.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { IdParam } from '@src/shared/infrastructure/http/params/IdParam.dto';
+import { RecipeCreator } from '../application/RecipeCreator';
+import { RecipeFinder } from '../application/RecipeFinder';
+import { RecipeCategoryUpdater } from '../application/RecipeCategoryUpdater';
 
 @ApiTags('Recipes')
 @Controller('recipes')
 export class RecipesController {
-  constructor(private readonly recipesService: RecipesService) {}
+  constructor(
+    private readonly recipeCreator: RecipeCreator,
+    private readonly recipeFinder: RecipeFinder,
+    private readonly recipeCategoryUpdater: RecipeCategoryUpdater,
+  ) {}
 
   @Post()
   async create(@Body() createRecipeDto: CreateRecipeDto): Promise<void> {
-    return this.recipesService.create(createRecipeDto);
+    return this.recipeCreator.create(createRecipeDto);
   }
 
   @Get()
   async getAll(): Promise<Recipe[]> {
-    return this.recipesService.findAll();
+    return this.recipeFinder.findAll();
   }
 
   @Get(':id')
-  async getById(@Param('id') id: string): Promise<Recipe> {
-    return this.recipesService.findById(id);
+  async getById(@Param() { id }: IdParam): Promise<Recipe> {
+    return this.recipeFinder.findById(id);
   }
 
-  @Patch('/category/:id')
+  @Patch(':id/category')
   async updateCategory(
-    @Param('id') id: string,
+    @Param() { id }: IdParam,
     @Body() updateRecipeCategoryDto: UpdateRecipeCategoryDto,
   ): Promise<void> {
-    this.recipesService.updateCategory(id, updateRecipeCategoryDto);
+    this.recipeCategoryUpdater.update(id, updateRecipeCategoryDto);
   }
 }

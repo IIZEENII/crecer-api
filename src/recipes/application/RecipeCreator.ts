@@ -10,38 +10,31 @@ export class RecipeCreator {
 
   async create(createRecipeDto: CreateRecipeDto): Promise<void> {
     try {
-      this.tryToCreate(createRecipeDto);
+      return this.tryToCreate(createRecipeDto);
     } catch (error) {
       console.log(error);
       await this.unitOfWork.rollbackTransaction();
     }
   }
-  // TODO: validate if recipe name alredy exists, set name as unique on recipe entity
+
   async tryToCreate(createRecipeDto: CreateRecipeDto): Promise<void> {
     await this.unitOfWork.beginTransaction();
 
     const recipeCreated =
-      this.unitOfWork.recipeRepository.create(createRecipeDto);
-
-    await this.unitOfWork.recipeRepository.save(recipeCreated);
+      await this.unitOfWork.recipeRepository.save(createRecipeDto);
 
     const defaultRecipeVariantCreated =
-      this.unitOfWork.recipeVariantRepository.create({
+      await this.unitOfWork.recipeVariantRepository.save({
         name: RecipeCreator.firstRecipeVariantName,
         recipe: recipeCreated,
       });
 
-    await this.unitOfWork.recipeVariantRepository.save(
-      defaultRecipeVariantCreated,
-    );
-
-    const defaultProductCreated = this.unitOfWork.productRepository.create({
+    await this.unitOfWork.productRepository.insert({
       name: RecipeCreator.firstRecipeVariantName,
       category: recipeCreated.category,
       recipeVariant: defaultRecipeVariantCreated,
     });
 
-    await this.unitOfWork.productRepository.save(defaultProductCreated);
     await this.unitOfWork.commitTransaction();
   }
 }

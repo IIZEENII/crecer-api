@@ -1,7 +1,7 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsString, Length } from 'class-validator';
 
 export class UpdateIngredientNameDto {
   @IsString()
-  @IsNotEmpty()
+  @Length(1, 64)
   name: string;
 }

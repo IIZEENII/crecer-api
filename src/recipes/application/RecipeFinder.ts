@@ -9,7 +9,10 @@ export class RecipeFinder {
   ) {}
 
   findAll(): Promise<Recipe[]> {
-    return this.recipeRepository.find();
+    return this.recipeRepository
+      .createQueryBuilder('recipe')
+      .innerJoinAndSelect('recipe.variants', 'variant')
+      .getMany();
   }
 
   findById(id: string): Promise<Recipe> {

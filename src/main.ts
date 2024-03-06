@@ -11,9 +11,8 @@ async function bootstrap() {
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Crecer API')
-    .setDescription('Learn how to use Crecer API')
+    .setDescription('How to use the Crecer API?')
     .setVersion('1.0')
-    .addTag('Crecer API')
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);

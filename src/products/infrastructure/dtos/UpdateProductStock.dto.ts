@@ -1,7 +1,7 @@
 import { IsNumber, Min } from 'class-validator';
 
-export class UpdateIngredientPriceDto {
+export class UpdateProductStockDto {
   @IsNumber()
   @Min(0)
-  price: number;
+  stock: number;
 }

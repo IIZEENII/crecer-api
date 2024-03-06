@@ -12,20 +12,25 @@ export class RecipeVariantFinder {
 
   async findById(id: string): Promise<RecipeVariant> {
     return this.recipeVariantRepository
-      .createQueryBuilder('variant')
-      .innerJoinAndSelect('variant.product', 'product')
-      .where('variant.id = :id', { id })
+      .createQueryBuilder('recipeVariant')
+      .leftJoinAndSelect('recipeVariant.ingredients', 'ingredient')
+      .leftJoinAndSelect('recipeVariant.procedures', 'procedure')
+      .where('recipeVariant.id = :id', { id })
       .getOne();
   }
 
   async findAll(): Promise<RecipeVariant[]> {
-    return this.recipeVariantRepository.find();
+    return this.recipeVariantRepository
+      .createQueryBuilder('recipeVariant')
+      .leftJoinAndSelect('recipeVariant.ingredients', 'ingredient')
+      .leftJoinAndSelect('recipeVariant.procedures', 'procedure')
+      .getMany();
   }
 
   async findWithRecipeJoined(id: string): Promise<RecipeVariant> {
     return this.recipeVariantRepository
-      .createQueryBuilder('variant')
-      .innerJoinAndSelect('variant.recipe', 'recipe')
+      .createQueryBuilder('recipeVariant')
+      .leftJoinAndSelect('recipeVariant.recipe', 'recipe')
       .where('variant.id = :id', { id })
       .getOne();
   }

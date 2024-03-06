@@ -1,18 +1,29 @@
-import { InjectRepository } from '@nestjs/typeorm';
-import { RecipeVariant } from '../domain/RecipeVariant';
-import { Repository } from 'typeorm';
+import { Injectable } from '@nestjs/common';
 import { AddIngredientsByIdDto } from '../infrastructure/dtos/AddIngredientById.dto';
+import { Ingredient } from '@src/ingredients/domain/Ingredient';
+import { UnitOfWorkForRecipes } from '@src/shared/infrastructure/unit-of-work/UnitOfWorkForRecipes';
 
+@Injectable()
 export class IngredientAgregatorToRecipeVariant {
-  constructor(
-    @InjectRepository(RecipeVariant)
-    private readonly recipeVariantRepository: Repository<RecipeVariant>,
-  ) {}
+  constructor(private readonly unitOfWork: UnitOfWorkForRecipes) {}
 
   async add(
     id: string,
-    addIngredientsByIdDto: AddIngredientsByIdDto,
+    { ingredientIds }: AddIngredientsByIdDto,
   ): Promise<void> {
-    console.log(id, addIngredientsByIdDto.ingredientIds);
+    // TODO: insert data to across from recipe_variants_and_ingredients
+    await this.unitOfWork.beginTransaction();
+    const recipeVariant = await this.unitOfWork.recipeVariantRepository
+      .createQueryBuilder('recipeVariant')
+      .where('recipeVariant.id = :id', { id })
+      .getOne();
+
+    await this.unitOfWork.ingredientRepository
+      .createQueryBuilder('ingredient')
+      .update(Ingredient)
+      .set({ recipeVariants: [recipeVariant] })
+      .where('ingredient.id = :id', { id: ingredientIds[0] })
+      .execute();
+    await this.unitOfWork.commitTransaction();
   }
 }

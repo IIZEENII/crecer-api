@@ -13,9 +13,9 @@ export class RecipeFinderJoinedToRecipeVariantsAndProducts {
   async findById(id: string): Promise<Recipe> {
     return await this.recipeRepository
       .createQueryBuilder('recipe')
-      .innerJoinAndSelect('recipe.recipeVariants', 'recipeVariants')
-      .innerJoinAndSelect('recipeVariants.product', 'product')
-      .where('recipe.id :id', { id })
+      .innerJoinAndSelect('recipe.variants', 'variant')
+      .innerJoinAndSelect('variant.product', 'product')
+      .where('recipe.id = :id', { id })
       .getOne();
   }
 }

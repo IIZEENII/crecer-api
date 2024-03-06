@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { RecipeVariantCopyNameDto } from './dtos/RecipeVariantCopyName.dto';
 import { RecipeVariant } from '../domain/RecipeVariant';
 import { RecipeVariantFinder } from '../application/RecipeVariantFinder';
@@ -17,7 +25,7 @@ export class RecipeVariantsController {
     private readonly ingredientAgregatorToRecipeVariant: IngredientAgregatorToRecipeVariant,
   ) {}
 
-  @Post(':id')
+  @Post(':id/copy')
   async cloneVariant(
     @Param() { id: originalRecipeVariantId }: IdParam,
     @Body() recipeVariantCopyNameDto: RecipeVariantCopyNameDto,
@@ -28,14 +36,14 @@ export class RecipeVariantsController {
     );
   }
 
-  @Get(':id')
-  async findById(@Param() { id }: IdParam): Promise<RecipeVariant> {
-    return this.recipeVariantFinder.findById(id);
-  }
-
   @Get()
   async findAll(): Promise<RecipeVariant[]> {
     return this.recipeVariantFinder.findAll();
+  }
+
+  @Get(':id')
+  async findById(@Param() { id }: IdParam): Promise<RecipeVariant> {
+    return this.recipeVariantFinder.findById(id);
   }
 
   @Patch(':id/add-ingredients')
@@ -47,5 +55,24 @@ export class RecipeVariantsController {
       id,
       addIngredientsByIdDto,
     );
+  }
+
+  @Patch(':id/add-ingredients')
+  async addProcedure(
+    @Param() { id }: IdParam,
+    @Body() addIngredientsByIdDto: AddIngredientsByIdDto,
+  ): Promise<void> {
+    return this.ingredientAgregatorToRecipeVariant.add(
+      id,
+      addIngredientsByIdDto,
+    );
+  }
+
+  @Delete(':id/ingredients/:id')
+  async removeIngredient(
+    @Param('id') { id }: IdParam,
+    @Param('ingredient-id') { id: ingredientId }: IdParam,
+  ) {
+    console.log(id, ingredientId);
   }
 }
