@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { UnitType } from './UnitType';
 import { RecipeVariant } from '@src/recipe-variants/domain/RecipeVariant';
 
@@ -20,5 +26,6 @@ export class Ingredient {
   unitType: UnitType;
 
   @ManyToMany(() => RecipeVariant, (recipeVariant) => recipeVariant.ingredients)
+  @JoinTable({ name: 'recipe_variants_and_ingredients' })
   recipeVariants: RecipeVariant[];
 }

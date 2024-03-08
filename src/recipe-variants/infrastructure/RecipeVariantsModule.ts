@@ -5,7 +5,6 @@ import { RecipeVariant } from '../domain/RecipeVariant';
 import { UnitOfWorkForRecipes } from 'src/shared/infrastructure/unit-of-work/UnitOfWorkForRecipes';
 import { RecipeVariantCopier } from '../application/RecipeVariantCopier';
 import { RecipeVariantFinder } from '../application/RecipeVariantFinder';
-import { RecipeVariantFinderJoinedToRecipe } from '../application/RecipeVariantsFinderJoinedToRecipe';
 import { IngredientAgregatorToRecipeVariant } from '../application/IngredientAgregatorToRecipeVariant';
 
 @Module({
@@ -15,7 +14,6 @@ import { IngredientAgregatorToRecipeVariant } from '../application/IngredientAgr
     RecipeVariantCopier,
     RecipeVariantFinder,
     UnitOfWorkForRecipes,
-    RecipeVariantFinderJoinedToRecipe,
     IngredientAgregatorToRecipeVariant,
   ],
 })

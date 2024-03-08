@@ -29,7 +29,7 @@ export class RecipeVariant {
   @OneToMany(() => Procedure, (procedure) => procedure.recipeVariant)
   procedures: Procedure[];
 
-  @ManyToOne(() => Recipe, (recipe) => recipe.variants)
+  @ManyToOne(() => Recipe, (recipe) => recipe.variants, { onDelete: 'CASCADE' })
   recipe: Recipe;
 
   @OneToOne(() => Product, (product) => product.recipeVariant)

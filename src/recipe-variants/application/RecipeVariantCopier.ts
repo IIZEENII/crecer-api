@@ -1,21 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { RecipeVariantCopyNameDto } from '../infrastructure/dtos/RecipeVariantCopyName.dto';
+import { CopyRecipeVariantDto } from '../infrastructure/dtos/CopyRecipeVariant.dto';
 import { UnitOfWorkForRecipes } from 'src/shared/infrastructure/unit-of-work/UnitOfWorkForRecipes';
-import { RecipeVariantFinderJoinedToRecipe } from './RecipeVariantsFinderJoinedToRecipe';
+import { RecipeVariant } from '../domain/RecipeVariant';
 
 @Injectable()
 export class RecipeVariantCopier {
-  constructor(
-    private readonly unitOfWork: UnitOfWorkForRecipes,
-    private readonly recipeVariantFinderJoinedToRecipe: RecipeVariantFinderJoinedToRecipe,
-  ) {}
+  constructor(private readonly unitOfWork: UnitOfWorkForRecipes) {}
 
   async copy(
-    originalRecipeVariantId: string,
-    recipeVariantCopyNameDto: RecipeVariantCopyNameDto,
+    originalRecipeVariant: RecipeVariant,
+    copyRecipeVariantDto: CopyRecipeVariantDto,
   ): Promise<void> {
     try {
-      await this.tryToCopy(originalRecipeVariantId, recipeVariantCopyNameDto);
+      return await this.tryToCopy(originalRecipeVariant, copyRecipeVariantDto);
     } catch (error) {
       console.log(error);
       this.unitOfWork.rollbackTransaction();
@@ -23,25 +20,20 @@ export class RecipeVariantCopier {
   }
 
   async tryToCopy(
-    originalRecipeVariantId: string,
-    recipeVariantCopyNameDto: RecipeVariantCopyNameDto,
+    originalRecipeVariant: RecipeVariant,
+    copyRecipeVariantDto: CopyRecipeVariantDto,
   ): Promise<void> {
     await this.unitOfWork.beginTransaction();
 
-    const recipeVariantCopy =
-      await this.recipeVariantFinderJoinedToRecipe.findById(
-        originalRecipeVariantId,
-      );
+    delete originalRecipeVariant.id;
+    originalRecipeVariant.name = copyRecipeVariantDto.nameOfCopy;
 
-    delete recipeVariantCopy.id;
-    recipeVariantCopy.name = recipeVariantCopyNameDto.name;
-
-    await this.unitOfWork.recipeVariantRepository.save(recipeVariantCopy);
+    await this.unitOfWork.recipeVariantRepository.save(originalRecipeVariant);
 
     await this.unitOfWork.productRepository.insert({
-      name: recipeVariantCopy.name,
-      category: recipeVariantCopy.recipe.category,
-      recipeVariant: recipeVariantCopy,
+      name: originalRecipeVariant.name,
+      category: originalRecipeVariant.recipe.category,
+      recipeVariant: originalRecipeVariant,
     });
 
     await this.unitOfWork.commitTransaction();

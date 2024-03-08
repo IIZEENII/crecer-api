@@ -8,36 +8,23 @@ import {
   Post,
 } from '@nestjs/common';
 import { Ingredient } from '../domain/Ingredient';
-import { IngredientFinderById } from '../application/IngredientFinderById';
-import { AllIngredientsFinder } from '../application/AllIngredientsFinder';
 import { IngredientCreator } from '../application/IngredientCreator';
-import { IngredientUnitTypeUpdaterWithoutRecipeVariants } from '../application/IngredientUnitTypeUpdaterWithoutRecipeVariants';
 import { CreateIngredientDto } from './dtos/CreateIngredient.dto';
-import { UpdateIngredientUnitTypeDto } from './dtos/UpdateIngredientUnitType.dto';
 import { IngredientDeleterWithoutRecipeVariants } from '../application/IngredientDeleterWithoutRecipeVariants';
-import { IngredientNameUpdater } from '../application/IngredientNameUpdater';
-import { IngredientPriceUpdater } from '../application/IngredientPriceUpdater';
-import { IngredientStockUpdater } from '../application/IngredientStockUpdater';
-import { UpdateIngredientNameDto } from './dtos/UpdateIngredientName.dto';
-import { UpdateIngredientStockDto } from './dtos/UpdateIngredientStock.dto';
-import { UpdateIngredientPriceDto } from './dtos/UpdateIngredientPrice.dto';
+import { IngredientUpdater } from '../application/IngredientUpdater';
+import { UpdateIngredientDto } from './dtos/UpdateIngredient.dto';
 import { IdParam } from '../../shared/infrastructure/http/params/IdParam.dto';
-import { IngredientFinderJoinedToRecipeVariants } from '../application/IngredientFinderWithRecipeVariants';
 import { ApiTags } from '@nestjs/swagger';
+import { IngredientsFinder } from '../application/IngredientsFinder';
 
 @ApiTags('Ingredients')
 @Controller('ingredients')
 export class IngredientsController {
   constructor(
-    private readonly ingredientFinderById: IngredientFinderById,
-    private readonly allIngredientsFinder: AllIngredientsFinder,
+    private readonly ingredientsFinder: IngredientsFinder,
     private readonly ingredientCreator: IngredientCreator,
-    private readonly ingredientUnitTypeUpdaterWithoutRecipeVariants: IngredientUnitTypeUpdaterWithoutRecipeVariants,
     private readonly ingredientDeleterWithoutRecipeVariants: IngredientDeleterWithoutRecipeVariants,
-    private readonly ingredientNameUpdater: IngredientNameUpdater,
-    private readonly ingredientStockUpdater: IngredientStockUpdater,
-    private readonly ingredientPriceUpdater: IngredientPriceUpdater,
-    private readonly ingre: IngredientFinderJoinedToRecipeVariants,
+    private readonly ingredientNameUpdater: IngredientUpdater,
   ) {}
 
   @Post()
@@ -49,56 +36,33 @@ export class IngredientsController {
 
   @Get(':id')
   async findById(@Param() IdParam: IdParam): Promise<Ingredient> {
-    return this.ingredientFinderById.find(IdParam.id);
+    return this.ingredientsFinder.findById(IdParam.id);
   }
 
   @Get()
   async findAll(): Promise<Ingredient[]> {
-    return this.allIngredientsFinder.find();
+    return this.ingredientsFinder.findAll();
   }
 
-  @Patch(':id/name')
+  @Patch(':id')
   async updateName(
     @Param() { id }: IdParam,
-    @Body() updateIngredientNameDto: UpdateIngredientNameDto,
+    @Body() updateIngredientNameDto: UpdateIngredientDto,
   ): Promise<void> {
-    return this.ingredientNameUpdater.update(id, updateIngredientNameDto);
-  }
+    const ingredient =
+      await this.ingredientsFinder.findWithRecipeVariantsById(id);
 
-  @Patch(':id/stock')
-  async updateStock(
-    @Param() { id }: IdParam,
-    @Body() updateIngredientStockDto: UpdateIngredientStockDto,
-  ): Promise<void> {
-    return this.ingredientStockUpdater.update(id, updateIngredientStockDto);
-  }
-
-  @Patch(':id/price')
-  async updatePrice(
-    @Param() { id }: IdParam,
-    @Body() updateIngredientPriceDto: UpdateIngredientPriceDto,
-  ): Promise<void> {
-    return this.ingredientPriceUpdater.update(id, updateIngredientPriceDto);
-  }
-
-  @Patch(':id/unit-type')
-  async updateUnitType(
-    @Param() { id }: IdParam,
-    @Body() updateIngredientUnitType: UpdateIngredientUnitTypeDto,
-  ): Promise<void> {
-    return this.ingredientUnitTypeUpdaterWithoutRecipeVariants.update(
-      id,
-      updateIngredientUnitType,
+    return this.ingredientNameUpdater.update(
+      ingredient,
+      updateIngredientNameDto,
     );
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string) {
-    return this.ingredientDeleterWithoutRecipeVariants.delete(id);
-  }
+  async delete(@Param() { id }: IdParam) {
+    const ingredient =
+      await this.ingredientsFinder.findWithRecipeVariantsById(id);
 
-  @Get('dummy/:id')
-  async getDummy(@Param('id') id: string) {
-    return this.ingre.findById(id);
+    return this.ingredientDeleterWithoutRecipeVariants.delete(ingredient);
   }
 }

@@ -3,28 +3,17 @@ import { IngredientsController } from './IngredientsController';
 import { IngredientCreator } from '../application/IngredientCreator';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Ingredient } from '../domain/Ingredient';
-import { AllIngredientsFinder } from '../application/AllIngredientsFinder';
-import { IngredientFinderById } from '../application/IngredientFinderById';
-import { IngredientUnitTypeUpdaterWithoutRecipeVariants } from '../application/IngredientUnitTypeUpdaterWithoutRecipeVariants';
+import { IngredientsFinder } from '../application/IngredientsFinder';
+import { IngredientUpdater } from '../application/IngredientUpdater';
 import { IngredientDeleterWithoutRecipeVariants } from '../application/IngredientDeleterWithoutRecipeVariants';
-import { IngredientFinderJoinedToRecipeVariants } from '../application/IngredientFinderWithRecipeVariants';
-import { IngredientNameUpdater } from '../application/IngredientNameUpdater';
-import { IngredientStockUpdater } from '../application/IngredientStockUpdater';
-import { IngredientPriceUpdater } from '../application/IngredientPriceUpdater';
-
 @Module({
   imports: [TypeOrmModule.forFeature([Ingredient])],
   controllers: [IngredientsController],
   providers: [
     IngredientCreator,
-    AllIngredientsFinder,
-    IngredientFinderById,
-    IngredientUnitTypeUpdaterWithoutRecipeVariants,
+    IngredientsFinder,
+    IngredientUpdater,
     IngredientDeleterWithoutRecipeVariants,
-    IngredientFinderJoinedToRecipeVariants,
-    IngredientNameUpdater,
-    IngredientStockUpdater,
-    IngredientPriceUpdater,
   ],
 })
 export class IngredientsModule {}

@@ -1,20 +1,12 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
-import { RecipeVariantCopyNameDto } from './dtos/RecipeVariantCopyName.dto';
-import { RecipeVariant } from '../domain/RecipeVariant';
-import { RecipeVariantFinder } from '../application/RecipeVariantFinder';
+import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common';
+import { CopyRecipeVariantDto } from './dtos/CopyRecipeVariant.dto';
 import { RecipeVariantCopier } from '../application/RecipeVariantCopier';
 import { IngredientAgregatorToRecipeVariant } from '../application/IngredientAgregatorToRecipeVariant';
 import { IdParam } from '@src/shared/infrastructure/http/params/IdParam.dto';
 import { AddIngredientsByIdDto } from './dtos/AddIngredientById.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { DeleteIngredientParams } from './http/params/DeleteIngredientParams.dto';
+import { RecipeVariantFinder } from '../application/RecipeVariantFinder';
 
 @ApiTags('Recipe variants')
 @Controller('recipe-variants')
@@ -26,27 +18,27 @@ export class RecipeVariantsController {
   ) {}
 
   @Post(':id/copy')
-  async cloneVariant(
-    @Param() { id: originalRecipeVariantId }: IdParam,
-    @Body() recipeVariantCopyNameDto: RecipeVariantCopyNameDto,
+  async copyVariant(
+    @Param() { id }: IdParam,
+    @Body() copyRecipeVariantDto: CopyRecipeVariantDto,
   ): Promise<void> {
-    this.recipeVariantCopier.copy(
-      originalRecipeVariantId,
-      recipeVariantCopyNameDto,
+    const recipeVariant =
+      await this.recipeVariantFinder.findWithRecipetById(id);
+    return this.recipeVariantCopier.copy(recipeVariant, copyRecipeVariantDto);
+  }
+
+  @Patch()
+  async update(
+    @Param() { id }: IdParam,
+    @Body() addIngredientsByIdDto: AddIngredientsByIdDto,
+  ): Promise<void> {
+    return this.ingredientAgregatorToRecipeVariant.add(
+      id,
+      addIngredientsByIdDto,
     );
   }
 
-  @Get()
-  async findAll(): Promise<RecipeVariant[]> {
-    return this.recipeVariantFinder.findAll();
-  }
-
-  @Get(':id')
-  async findById(@Param() { id }: IdParam): Promise<RecipeVariant> {
-    return this.recipeVariantFinder.findById(id);
-  }
-
-  @Patch(':id/add-ingredients')
+  @Post(':id/ingredients')
   async addIngredients(
     @Param() { id }: IdParam,
     @Body() addIngredientsByIdDto: AddIngredientsByIdDto,
@@ -57,7 +49,19 @@ export class RecipeVariantsController {
     );
   }
 
-  @Patch(':id/add-ingredients')
+  @Delete(':id/ingredients/:ingredientId')
+  async removeIngredientInRecipeVariant(
+    @Param() { id, ingredientId }: DeleteIngredientParams,
+  ) {
+    console.log(id, ingredientId);
+  }
+
+  @Delete(':id')
+  async remove(@Param() { id }: IdParam) {
+    console.log(id);
+  }
+
+  @Post(':id/procedures')
   async addProcedure(
     @Param() { id }: IdParam,
     @Body() addIngredientsByIdDto: AddIngredientsByIdDto,
@@ -68,11 +72,19 @@ export class RecipeVariantsController {
     );
   }
 
-  @Delete(':id/ingredients/:id')
-  async removeIngredient(
-    @Param('id') { id }: IdParam,
-    @Param('ingredient-id') { id: ingredientId }: IdParam,
-  ) {
+  @Patch(':id/procedures/:procedureId')
+  async updateProcedure(
+    @Param() { id }: IdParam,
+    @Body() addIngredientsByIdDto: AddIngredientsByIdDto,
+  ): Promise<void> {
+    return this.ingredientAgregatorToRecipeVariant.add(
+      id,
+      addIngredientsByIdDto,
+    );
+  }
+
+  @Delete(':id/procedures/:procedureId')
+  async deleteProcedure(@Param() { id, ingredientId }: DeleteIngredientParams) {
     console.log(id, ingredientId);
   }
 }

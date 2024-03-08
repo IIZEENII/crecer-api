@@ -20,6 +20,8 @@ export class Recipe {
   @Column({ type: 'enum', enum: Categories })
   category: Categories;
 
-  @OneToMany(() => RecipeVariant, (recipeVariant) => recipeVariant.recipe)
+  @OneToMany(() => RecipeVariant, (recipeVariant) => recipeVariant.recipe, {
+    onDelete: 'CASCADE',
+  })
   variants: RecipeVariant[];
 }

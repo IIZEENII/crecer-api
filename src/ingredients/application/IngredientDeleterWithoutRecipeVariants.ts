@@ -2,33 +2,28 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Ingredient } from '../domain/Ingredient';
-import { IngredientFinderJoinedToRecipeVariants } from './IngredientFinderWithRecipeVariants';
 
 @Injectable()
 export class IngredientDeleterWithoutRecipeVariants {
   constructor(
     @InjectRepository(Ingredient)
     private readonly ingredientRepository: Repository<Ingredient>,
-    private readonly ingredientFinderJoinedToRecipeVariants: IngredientFinderJoinedToRecipeVariants,
   ) {}
 
-  async delete(id: string): Promise<void> {
+  async delete(ingredient: Ingredient) {
     try {
-      this.tryToDelete(id);
+      return this.tryToDelete(ingredient);
     } catch (error) {
       console.log(error);
     }
   }
 
-  private async tryToDelete(id: string) {
-    const ingredient =
-      await this.ingredientFinderJoinedToRecipeVariants.findById(id);
-
-    if (!this.isIngredientInRecipeVariants(ingredient)) {
-      await this.ingredientRepository.delete({ id });
+  private async tryToDelete(ingredient: Ingredient) {
+    if (this.isIngredientInRecipeVariants(ingredient)) {
+      throw new BadRequestException('ingredient is associated in some recipes');
     }
 
-    throw new BadRequestException();
+    await this.ingredientRepository.remove(ingredient);
   }
 
   private isIngredientInRecipeVariants(ingredient: Ingredient): boolean {
