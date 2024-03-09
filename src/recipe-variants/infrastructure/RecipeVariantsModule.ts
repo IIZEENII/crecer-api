@@ -6,15 +6,19 @@ import { UnitOfWorkForRecipes } from 'src/shared/infrastructure/unit-of-work/Uni
 import { RecipeVariantCopier } from '../application/RecipeVariantCopier';
 import { RecipeVariantFinder } from '../application/RecipeVariantFinder';
 import { IngredientAgregatorToRecipeVariant } from '../application/IngredientAgregatorToRecipeVariant';
+import { RecipeVariantCreator } from '../application/RecipeVariantCreator';
+import { IngredientsModule } from '@src/ingredients/infrastructure/IngredientsModule';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([RecipeVariant])],
+  imports: [TypeOrmModule.forFeature([RecipeVariant]), IngredientsModule],
   controllers: [RecipeVariantsController],
   providers: [
     RecipeVariantCopier,
     RecipeVariantFinder,
     UnitOfWorkForRecipes,
     IngredientAgregatorToRecipeVariant,
+    RecipeVariantCreator,
   ],
+  exports: [RecipeVariantCreator],
 })
 export class RecipeVariantsModule {}

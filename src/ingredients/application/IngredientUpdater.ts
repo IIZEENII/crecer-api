@@ -27,14 +27,11 @@ export class IngredientUpdater {
     updateIngredientDto: UpdateIngredientDto,
   ): Promise<void> {
     if (this.isIngredientInRecipeVariants(ingredient)) {
-      throw new BadRequestException({
-        message: [
-          'not allowed update unit type when ingredient is in in some recipes.',
-        ],
-      });
+      throw new BadRequestException(
+        'cannot be updated unit type, ingredient is in some recipes.',
+      );
     }
 
-    // TODO: convert in a method to understand more the context
     if (!updateIngredientDto?.unitType) {
       updateIngredientDto.unitType = ingredient.unitType;
     }

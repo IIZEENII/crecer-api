@@ -41,4 +41,32 @@ export class RecipeVariantFinder {
 
     return recipeVariant;
   }
+
+  async findWithIngredientsById(id: string): Promise<RecipeVariant> {
+    const recipeVariant = await this.recipeVariantRepository
+      .createQueryBuilder('recipeVariant')
+      .leftJoinAndSelect('recipeVariant.ingredients', 'ingredient')
+      .where('recipeVariant.id = :id', { id })
+      .getOne();
+
+    if (!recipeVariant) {
+      throw new NotFoundException('recipe variant not found');
+    }
+
+    return recipeVariant;
+  }
+
+  async findWithProceduresById(id: string): Promise<RecipeVariant> {
+    const recipeVariant = await this.recipeVariantRepository
+      .createQueryBuilder('recipeVariant')
+      .leftJoinAndSelect('recipeVariant.procedures', 'procedures')
+      .where('recipeVariant.id = :id', { id })
+      .getOne();
+
+    if (!recipeVariant) {
+      throw new NotFoundException('recipe variant not found');
+    }
+
+    return recipeVariant;
+  }
 }

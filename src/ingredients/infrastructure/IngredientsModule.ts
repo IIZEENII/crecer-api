@@ -15,5 +15,6 @@ import { IngredientDeleterWithoutRecipeVariants } from '../application/Ingredien
     IngredientUpdater,
     IngredientDeleterWithoutRecipeVariants,
   ],
+  exports: [IngredientsFinder],
 })
 export class IngredientsModule {}

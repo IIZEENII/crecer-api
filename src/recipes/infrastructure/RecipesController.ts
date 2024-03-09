@@ -16,6 +16,8 @@ import { RecipeCreator } from '../application/RecipeCreator';
 import { RecipeFinder } from '../application/RecipeFinder';
 import { RecipeUpdater } from '../application/RecipeUpdater';
 import { RecipeDeleter } from '../application/RecipeDeleter';
+import { CreateRecipeVariantDto } from '@src/recipe-variants/infrastructure/dtos/CreateRecipeVariant.dto';
+import { RecipeVariantCreator } from '@src/recipe-variants/application/RecipeVariantCreator';
 
 @ApiTags('Recipes')
 @Controller('recipes')
@@ -25,6 +27,7 @@ export class RecipesController {
     private readonly recipeFinder: RecipeFinder,
     private readonly recipeCategoryUpdater: RecipeUpdater,
     private readonly recipeDeleter: RecipeDeleter,
+    private readonly recipeVariantCreator: RecipeVariantCreator,
   ) {}
 
   @Get()
@@ -70,9 +73,10 @@ export class RecipesController {
   @Post(':id/variants')
   async createVariant(
     @Param() { id }: IdParam,
-    @Body() createRecipeDto: CreateRecipeDto,
+    @Body() createRecipeVariantDto: CreateRecipeVariantDto,
   ): Promise<void> {
-    console.log(id, createRecipeDto);
+    console.log(id);
+    this.recipeVariantCreator.create(createRecipeVariantDto);
   }
 
   @Delete(':id/variants/:id')

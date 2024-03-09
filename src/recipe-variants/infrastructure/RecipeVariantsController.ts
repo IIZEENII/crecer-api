@@ -7,6 +7,7 @@ import { AddIngredientsByIdDto } from './dtos/AddIngredientById.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { DeleteIngredientParams } from './http/params/DeleteIngredientParams.dto';
 import { RecipeVariantFinder } from '../application/RecipeVariantFinder';
+import { IngredientsFinder } from '@src/ingredients/application/IngredientsFinder';
 
 @ApiTags('Recipe variants')
 @Controller('recipe-variants')
@@ -14,6 +15,7 @@ export class RecipeVariantsController {
   constructor(
     private readonly recipeVariantFinder: RecipeVariantFinder,
     private readonly recipeVariantCopier: RecipeVariantCopier,
+    private readonly ingredientFinder: IngredientsFinder,
     private readonly ingredientAgregatorToRecipeVariant: IngredientAgregatorToRecipeVariant,
   ) {}
 
@@ -32,20 +34,23 @@ export class RecipeVariantsController {
     @Param() { id }: IdParam,
     @Body() addIngredientsByIdDto: AddIngredientsByIdDto,
   ): Promise<void> {
-    return this.ingredientAgregatorToRecipeVariant.add(
-      id,
-      addIngredientsByIdDto,
-    );
+    console.log(id, addIngredientsByIdDto);
   }
 
   @Post(':id/ingredients')
   async addIngredients(
     @Param() { id }: IdParam,
-    @Body() addIngredientsByIdDto: AddIngredientsByIdDto,
+    @Body() { ingredientIds }: AddIngredientsByIdDto,
   ): Promise<void> {
+    const recipeVariant =
+      await this.recipeVariantFinder.findWithIngredientsById(id);
+
+    const ingredients =
+      await this.ingredientFinder.findIngredientsByIds(ingredientIds);
+
     return this.ingredientAgregatorToRecipeVariant.add(
-      id,
-      addIngredientsByIdDto,
+      recipeVariant,
+      ingredients,
     );
   }
 
@@ -66,10 +71,7 @@ export class RecipeVariantsController {
     @Param() { id }: IdParam,
     @Body() addIngredientsByIdDto: AddIngredientsByIdDto,
   ): Promise<void> {
-    return this.ingredientAgregatorToRecipeVariant.add(
-      id,
-      addIngredientsByIdDto,
-    );
+    console.log(id, addIngredientsByIdDto);
   }
 
   @Patch(':id/procedures/:procedureId')
@@ -77,10 +79,7 @@ export class RecipeVariantsController {
     @Param() { id }: IdParam,
     @Body() addIngredientsByIdDto: AddIngredientsByIdDto,
   ): Promise<void> {
-    return this.ingredientAgregatorToRecipeVariant.add(
-      id,
-      addIngredientsByIdDto,
-    );
+    console.log(id, addIngredientsByIdDto);
   }
 
   @Delete(':id/procedures/:procedureId')

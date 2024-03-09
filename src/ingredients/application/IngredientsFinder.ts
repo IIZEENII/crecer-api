@@ -35,4 +35,12 @@ export class IngredientsFinder {
 
     return ingredient;
   }
+
+  //TODO: When the method returns empty list, return not found exeption
+  async findIngredientsByIds(ingredientIds: string[]): Promise<Ingredient[]> {
+    return this.ingredientRepository
+      .createQueryBuilder('ingredient')
+      .where('ingredient.id IN (:...ids)', { ids: ingredientIds })
+      .getMany();
+  }
 }

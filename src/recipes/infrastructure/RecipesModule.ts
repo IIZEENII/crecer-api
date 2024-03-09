@@ -7,9 +7,10 @@ import { Recipe } from '../domain/Recipe';
 import { RecipeUpdater } from '../application/RecipeUpdater';
 import { UnitOfWorkForRecipes } from 'src/shared/infrastructure/unit-of-work/UnitOfWorkForRecipes';
 import { RecipeDeleter } from '../application/RecipeDeleter';
+import { RecipeVariantsModule } from '@src/recipe-variants/infrastructure/RecipeVariantsModule';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Recipe])],
+  imports: [TypeOrmModule.forFeature([Recipe]), RecipeVariantsModule],
   controllers: [RecipesController],
   providers: [
     RecipeCreator,

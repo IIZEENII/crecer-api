@@ -20,7 +20,9 @@ export class IngredientDeleterWithoutRecipeVariants {
 
   private async tryToDelete(ingredient: Ingredient) {
     if (this.isIngredientInRecipeVariants(ingredient)) {
-      throw new BadRequestException('ingredient is associated in some recipes');
+      throw new BadRequestException(
+        'cannot be deleted, ingredient is in some recipes.',
+      );
     }
 
     await this.ingredientRepository.remove(ingredient);
