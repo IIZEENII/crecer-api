@@ -5,9 +5,10 @@ import { IngredientAgregatorToRecipeVariant } from '../application/IngredientAgr
 import { IdParam } from '@src/shared/infrastructure/http/params/IdParam.dto';
 import { AddIngredientsByIdDto } from './dtos/AddIngredientById.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { DeleteIngredientParams } from './http/params/DeleteIngredientParams.dto';
+import { RemoveIngredientParams } from './http/params/DeleteIngredientParams.dto';
 import { RecipeVariantFinder } from '../application/RecipeVariantFinder';
 import { IngredientsFinder } from '@src/ingredients/application/IngredientsFinder';
+import { IngredientRemoverToRecipeVariant } from '../application/IngredientRemoveToRecipeVariant';
 
 @ApiTags('Recipe variants')
 @Controller('recipe-variants')
@@ -17,6 +18,7 @@ export class RecipeVariantsController {
     private readonly recipeVariantCopier: RecipeVariantCopier,
     private readonly ingredientFinder: IngredientsFinder,
     private readonly ingredientAgregatorToRecipeVariant: IngredientAgregatorToRecipeVariant,
+    private readonly ingredientRemoverToRecipeVariant: IngredientRemoverToRecipeVariant,
   ) {}
 
   @Post(':id/copy')
@@ -56,9 +58,17 @@ export class RecipeVariantsController {
 
   @Delete(':id/ingredients/:ingredientId')
   async removeIngredientInRecipeVariant(
-    @Param() { id, ingredientId }: DeleteIngredientParams,
+    @Param() { id, ingredientId }: RemoveIngredientParams,
   ) {
-    console.log(id, ingredientId);
+    const recipeVariant =
+      await this.recipeVariantFinder.findWithIngredientsById(id);
+
+    const ingredient = await this.ingredientFinder.findById(ingredientId);
+
+    return await this.ingredientRemoverToRecipeVariant.remove(
+      recipeVariant,
+      ingredient.id,
+    );
   }
 
   @Delete(':id')
@@ -83,7 +93,7 @@ export class RecipeVariantsController {
   }
 
   @Delete(':id/procedures/:procedureId')
-  async deleteProcedure(@Param() { id, ingredientId }: DeleteIngredientParams) {
+  async deleteProcedure(@Param() { id, ingredientId }: RemoveIngredientParams) {
     console.log(id, ingredientId);
   }
 }

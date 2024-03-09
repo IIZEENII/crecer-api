@@ -25,6 +25,6 @@ export class IngredientAgregatorToRecipeVariant {
   ) {
     //TODO: validate if ingredient alredy exists in recipe Variant: Not sure
     recipeVariant.ingredients.push(...ingredients);
-    this.recipeVariantRepository.save(recipeVariant);
+    await this.recipeVariantRepository.save(recipeVariant);
   }
 }

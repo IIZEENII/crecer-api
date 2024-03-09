@@ -1,6 +1,6 @@
 import { IsUUID } from 'class-validator';
 
-export class DeleteIngredientParams {
+export class RemoveIngredientParams {
   @IsUUID('4')
   id: string;
   @IsUUID('4')

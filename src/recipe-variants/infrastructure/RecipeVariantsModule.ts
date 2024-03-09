@@ -8,6 +8,7 @@ import { RecipeVariantFinder } from '../application/RecipeVariantFinder';
 import { IngredientAgregatorToRecipeVariant } from '../application/IngredientAgregatorToRecipeVariant';
 import { RecipeVariantCreator } from '../application/RecipeVariantCreator';
 import { IngredientsModule } from '@src/ingredients/infrastructure/IngredientsModule';
+import { IngredientRemoverToRecipeVariant } from '../application/IngredientRemoveToRecipeVariant';
 
 @Module({
   imports: [TypeOrmModule.forFeature([RecipeVariant]), IngredientsModule],
@@ -18,6 +19,7 @@ import { IngredientsModule } from '@src/ingredients/infrastructure/IngredientsMo
     UnitOfWorkForRecipes,
     IngredientAgregatorToRecipeVariant,
     RecipeVariantCreator,
+    IngredientRemoverToRecipeVariant,
   ],
   exports: [RecipeVariantCreator],
 })
