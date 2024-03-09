@@ -1,6 +1,6 @@
 import { MinLength } from 'class-validator';
 
-export class CreateProcedureDto {
+export class UpdateProcedure {
   @MinLength(1)
   description: string;
 }

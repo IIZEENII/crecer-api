@@ -9,6 +9,8 @@ import { RemoveIngredientParams } from './http/params/DeleteIngredientParams.dto
 import { RecipeVariantFinder } from '../application/RecipeVariantFinder';
 import { IngredientsFinder } from '@src/ingredients/application/IngredientsFinder';
 import { IngredientRemoverForRecipeVariant } from '../application/IngredientRemoveForRecipeVariant';
+import { ProcedureCreatorForRecipeVariant } from '../application/ProcedureCreatorForRecipeVariant';
+import { CreateProcedureDto } from '@src/procedures/infrastructure/dtos/CreateProcedure.dto';
 
 @ApiTags('Recipe variants')
 @Controller('recipe-variants')
@@ -17,8 +19,9 @@ export class RecipeVariantsController {
     private readonly recipeVariantFinder: RecipeVariantFinder,
     private readonly recipeVariantCopier: RecipeVariantCopier,
     private readonly ingredientFinder: IngredientsFinder,
-    private readonly ingredientAgregatorToRecipeVariant: IngredientAgregatorForRecipeVariant,
+    private readonly ingredientAgregatorForRecipeVariant: IngredientAgregatorForRecipeVariant,
     private readonly ingredientRemoverToRecipeVariant: IngredientRemoverForRecipeVariant,
+    private readonly procedureAgregatorForRecipeVariant: ProcedureCreatorForRecipeVariant,
   ) {}
 
   @Post(':id/copy')
@@ -50,7 +53,7 @@ export class RecipeVariantsController {
     const ingredients =
       await this.ingredientFinder.findIngredientsByIds(ingredientIds);
 
-    return this.ingredientAgregatorToRecipeVariant.add(
+    return this.ingredientAgregatorForRecipeVariant.add(
       recipeVariant,
       ingredients,
     );
@@ -79,9 +82,15 @@ export class RecipeVariantsController {
   @Post(':id/procedures')
   async addProcedure(
     @Param() { id }: IdParam,
-    @Body() addIngredientsByIdDto: AddIngredientsByIdDto,
+    @Body() createProcedureDto: CreateProcedureDto,
   ): Promise<void> {
-    console.log(id, addIngredientsByIdDto);
+    const recipeVariant =
+      await this.recipeVariantFinder.findWithProceduresById(id);
+
+    return await this.procedureAgregatorForRecipeVariant.add(
+      recipeVariant,
+      createProcedureDto,
+    );
   }
 
   @Patch(':id/procedures/:procedureId')

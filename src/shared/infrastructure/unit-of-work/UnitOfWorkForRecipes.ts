@@ -6,6 +6,7 @@ import { Recipe } from '@src/recipes/domain/Recipe';
 import { RecipeVariant } from '@src/recipe-variants/domain/RecipeVariant';
 import { Product } from '@src/products/domain/Product';
 import { Ingredient } from '@src/ingredients/domain/Ingredient';
+import { Procedure } from '@src/procedures/domain/Producedure';
 
 @Injectable()
 export class UnitOfWorkForRecipes implements UnitOfWork {
@@ -56,5 +57,9 @@ export class UnitOfWorkForRecipes implements UnitOfWork {
 
   get ingredientRepository(): Repository<Ingredient> {
     return this.queryRunner.manager.getRepository(Ingredient);
+  }
+
+  get procedureRepository(): Repository<Procedure> {
+    return this.queryRunner.manager.getRepository(Procedure);
   }
 }

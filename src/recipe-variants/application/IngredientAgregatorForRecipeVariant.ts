@@ -22,7 +22,7 @@ export class IngredientAgregatorForRecipeVariant {
   private async tryToAdd(
     recipeVariant: RecipeVariant,
     ingredients: Ingredient[],
-  ) {
+  ): Promise<void> {
     //TODO: validate if ingredient alredy exists in recipe Variant: Not sure
     recipeVariant.ingredients.push(...ingredients);
     await this.recipeVariantRepository.save(recipeVariant);
