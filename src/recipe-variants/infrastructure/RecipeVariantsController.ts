@@ -21,7 +21,7 @@ export class RecipeVariantsController {
     private readonly ingredientFinder: IngredientsFinder,
     private readonly ingredientAgregatorForRecipeVariant: IngredientAgregatorForRecipeVariant,
     private readonly ingredientRemoverToRecipeVariant: IngredientRemoverForRecipeVariant,
-    private readonly procedureAgregatorForRecipeVariant: ProcedureCreatorForRecipeVariant,
+    private readonly procedureCreatorForRecipeVariant: ProcedureCreatorForRecipeVariant,
   ) {}
 
   @Post(':id/copy')
@@ -87,7 +87,7 @@ export class RecipeVariantsController {
     const recipeVariant =
       await this.recipeVariantFinder.findWithProceduresById(id);
 
-    return await this.procedureAgregatorForRecipeVariant.add(
+    return await this.procedureCreatorForRecipeVariant.create(
       recipeVariant,
       createProcedureDto,
     );

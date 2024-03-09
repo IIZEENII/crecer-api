@@ -7,19 +7,19 @@ import { CreateProcedureDto } from '@src/procedures/infrastructure/dtos/CreatePr
 export class ProcedureCreatorForRecipeVariant {
   constructor(private readonly unitOfWork: UnitOfWorkForRecipes) {}
 
-  async add(
+  async create(
     recipeVariant: RecipeVariant,
     createProcedureDto: CreateProcedureDto,
   ): Promise<void> {
     try {
-      return await this.TryToAdd(recipeVariant, createProcedureDto);
+      return await this.TryToCreate(recipeVariant, createProcedureDto);
     } catch (error) {
       console.log(error);
       await this.unitOfWork.rollbackTransaction();
     }
   }
 
-  private async TryToAdd(
+  private async TryToCreate(
     recipeVariant: RecipeVariant,
     createProcedureDto: CreateProcedureDto,
   ): Promise<void> {
