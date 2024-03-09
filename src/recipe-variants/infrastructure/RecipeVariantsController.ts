@@ -1,14 +1,14 @@
 import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common';
 import { CopyRecipeVariantDto } from './dtos/CopyRecipeVariant.dto';
 import { RecipeVariantCopier } from '../application/RecipeVariantCopier';
-import { IngredientAgregatorToRecipeVariant } from '../application/IngredientAgregatorToRecipeVariant';
+import { IngredientAgregatorForRecipeVariant } from '../application/IngredientAgregatorForRecipeVariant';
 import { IdParam } from '@src/shared/infrastructure/http/params/IdParam.dto';
 import { AddIngredientsByIdDto } from './dtos/AddIngredientById.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { RemoveIngredientParams } from './http/params/DeleteIngredientParams.dto';
 import { RecipeVariantFinder } from '../application/RecipeVariantFinder';
 import { IngredientsFinder } from '@src/ingredients/application/IngredientsFinder';
-import { IngredientRemoverToRecipeVariant } from '../application/IngredientRemoveToRecipeVariant';
+import { IngredientRemoverForRecipeVariant } from '../application/IngredientRemoveForRecipeVariant';
 
 @ApiTags('Recipe variants')
 @Controller('recipe-variants')
@@ -17,8 +17,8 @@ export class RecipeVariantsController {
     private readonly recipeVariantFinder: RecipeVariantFinder,
     private readonly recipeVariantCopier: RecipeVariantCopier,
     private readonly ingredientFinder: IngredientsFinder,
-    private readonly ingredientAgregatorToRecipeVariant: IngredientAgregatorToRecipeVariant,
-    private readonly ingredientRemoverToRecipeVariant: IngredientRemoverToRecipeVariant,
+    private readonly ingredientAgregatorToRecipeVariant: IngredientAgregatorForRecipeVariant,
+    private readonly ingredientRemoverToRecipeVariant: IngredientRemoverForRecipeVariant,
   ) {}
 
   @Post(':id/copy')

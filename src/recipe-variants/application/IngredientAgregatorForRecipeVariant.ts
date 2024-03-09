@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
-export class IngredientAgregatorToRecipeVariant {
+export class IngredientAgregatorForRecipeVariant {
   constructor(
     @InjectRepository(RecipeVariant)
     private readonly recipeVariantRepository: Repository<RecipeVariant>,
