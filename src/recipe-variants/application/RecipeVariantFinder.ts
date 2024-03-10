@@ -11,7 +11,7 @@ export class RecipeVariantFinder {
   ) {}
 
   async findById(id: string): Promise<RecipeVariant> {
-    const recipeVariant = this.recipeVariantRepository.findOneBy({ id });
+    const recipeVariant = await this.recipeVariantRepository.findOneBy({ id });
 
     if (!recipeVariant) {
       throw new NotFoundException('recipe variant not found');

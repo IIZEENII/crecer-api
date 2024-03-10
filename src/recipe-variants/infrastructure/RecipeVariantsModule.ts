@@ -10,6 +10,7 @@ import { RecipeVariantCreator } from '../application/RecipeVariantCreator';
 import { IngredientsModule } from '@src/ingredients/infrastructure/IngredientsModule';
 import { IngredientRemoverForRecipeVariant } from '../application/IngredientRemoveForRecipeVariant';
 import { ProcedureCreatorForRecipeVariant } from '../application/ProcedureCreatorForRecipeVariant';
+import { RecipeVariantUpdater } from '../application/RecipeVariantUpdater';
 
 @Module({
   imports: [TypeOrmModule.forFeature([RecipeVariant]), IngredientsModule],
@@ -19,6 +20,7 @@ import { ProcedureCreatorForRecipeVariant } from '../application/ProcedureCreato
     RecipeVariantFinder,
     UnitOfWorkForRecipes,
     RecipeVariantCreator,
+    RecipeVariantUpdater,
     IngredientAgregatorForRecipeVariant,
     IngredientRemoverForRecipeVariant,
     ProcedureCreatorForRecipeVariant,
