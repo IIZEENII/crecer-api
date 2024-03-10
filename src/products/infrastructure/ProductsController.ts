@@ -4,7 +4,8 @@ import { ProductFinder } from '../application/ProductFinder';
 import { ApiTags } from '@nestjs/swagger';
 import { IdParam } from '@src/shared/infrastructure/http/params/IdParam.dto';
 import { ProductUpdater } from '../application/ProductUpdater';
-import { UpdateProductNameDto } from './dtos/UpdateProductName.dto';
+import { UpdateProductDto } from './dtos/UpdateProduct.dto';
+import { ProductDisabler } from '../application/ProductDisabler';
 
 @ApiTags('Products')
 @Controller('products')
@@ -12,6 +13,7 @@ export class ProductsController {
   constructor(
     private readonly productsFinder: ProductFinder,
     private readonly productUpdater: ProductUpdater,
+    private readonly productDisabler: ProductDisabler,
   ) {}
 
   @Get()
@@ -27,13 +29,15 @@ export class ProductsController {
   @Patch(':id')
   async udpate(
     @Param() { id }: IdParam,
-    @Body() updateProductNameDto: UpdateProductNameDto,
+    @Body() updateProductDto: UpdateProductDto,
   ): Promise<void> {
-    return this.productUpdater.updateName(id, updateProductNameDto);
+    const product = await this.productsFinder.findById(id);
+    return this.productUpdater.update(product.id, updateProductDto);
   }
 
   @Delete(':id')
-  async delete(@Param() { id }: IdParam): Promise<void> {
-    console.log(id);
+  async disable(@Param() { id }: IdParam): Promise<void> {
+    const product = await this.productsFinder.findById(id);
+    return this.productDisabler.disable(product);
   }
 }
