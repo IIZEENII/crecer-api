@@ -92,17 +92,4 @@ export class RecipeVariantsController {
       createProcedureDto,
     );
   }
-
-  @Patch(':id/procedures/:procedureId')
-  async updateProcedure(
-    @Param() { id }: IdParam,
-    @Body() addIngredientsByIdDto: AddIngredientsByIdDto,
-  ): Promise<void> {
-    console.log(id, addIngredientsByIdDto);
-  }
-
-  @Delete(':id/procedures/:procedureId')
-  async deleteProcedure(@Param() { id, ingredientId }: RemoveIngredientParams) {
-    console.log(id, ingredientId);
-  }
 }
