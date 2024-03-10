@@ -5,4 +5,6 @@ export enum Categories {
   BREADS = 'panes',
   FESTIVE_DISHES = 'platillos',
   SNACKS = 'bocadillos',
+  FLANS = 'flanes',
+  PIES = 'pies',
 }
