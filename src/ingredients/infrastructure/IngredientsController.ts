@@ -24,7 +24,7 @@ export class IngredientsController {
     private readonly ingredientsFinder: IngredientsFinder,
     private readonly ingredientCreator: IngredientCreator,
     private readonly ingredientDeleterWithoutRecipeVariants: IngredientDeleterWithoutRecipeVariants,
-    private readonly ingredientNameUpdater: IngredientUpdater,
+    private readonly ingredientUpdater: IngredientUpdater,
   ) {}
 
   @Post()
@@ -52,10 +52,7 @@ export class IngredientsController {
     const ingredient =
       await this.ingredientsFinder.findWithRecipeVariantsById(id);
 
-    return this.ingredientNameUpdater.update(
-      ingredient,
-      updateIngredientNameDto,
-    );
+    return this.ingredientUpdater.update(ingredient, updateIngredientNameDto);
   }
 
   @Delete(':id')
