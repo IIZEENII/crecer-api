@@ -10,7 +10,7 @@ import {
 import { CreateRecipeDto } from './dtos/CreateRecipe.dto';
 import { Recipe } from '../domain/Recipe';
 import { UpdateRecipeDto } from './dtos/UpdateRecipe.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { IdParam } from '@src/shared/infrastructure/http/params/IdParam.dto';
 import { RecipeCreator } from '../application/RecipeCreator';
 import { RecipeFinder } from '../application/RecipeFinder';
@@ -19,6 +19,7 @@ import { RecipeDeleter } from '../application/RecipeDeleter';
 import { CreateRecipeVariantDto } from '@src/recipe-variants/infrastructure/dtos/CreateRecipeVariant.dto';
 import { RecipeVariantCreator } from '@src/recipe-variants/application/RecipeVariantCreator';
 
+@ApiBearerAuth()
 @ApiTags('Recipes')
 @Controller('recipes')
 export class RecipesController {

@@ -12,7 +12,6 @@ export class EmployeeCreator {
   ) {}
 
   async create(createEmployeeDto: CreateEmployeeDto): Promise<void> {
-    const employeeCreated = this.employeeRepository.create(createEmployeeDto);
-    this.employeeRepository.save(employeeCreated);
+    await this.employeeRepository.save(createEmployeeDto);
   }
 }

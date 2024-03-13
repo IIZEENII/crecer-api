@@ -1,11 +1,12 @@
 import { Body, Controller, Delete, Param, Patch } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ProcedureFinder } from '../application/ProcedureFinder';
 import { IdParam } from '@src/shared/infrastructure/http/params/IdParam.dto';
 import { ProcedureUpdater } from '../application/ProcedureUpdater';
 import { ProcedureDeleter } from '../application/ProcedureDeleter';
 import { UpdateProcedure } from './dtos/UpdateProcedure.dto';
 
+@ApiBearerAuth()
 @ApiTags('Procedures')
 @Controller('procedures')
 export class ProceduresController {

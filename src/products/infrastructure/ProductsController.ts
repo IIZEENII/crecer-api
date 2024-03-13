@@ -1,12 +1,13 @@
 import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common';
 import { Product } from '../domain/Product';
 import { ProductFinder } from '../application/ProductFinder';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { IdParam } from '@src/shared/infrastructure/http/params/IdParam.dto';
 import { ProductUpdater } from '../application/ProductUpdater';
 import { UpdateProductDto } from './dtos/UpdateProduct.dto';
 import { ProductDisabler } from '../application/ProductDisabler';
 
+@ApiBearerAuth()
 @ApiTags('Products')
 @Controller('products')
 export class ProductsController {

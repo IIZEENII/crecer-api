@@ -14,9 +14,10 @@ import { IngredientDeleterWithoutRecipeVariants } from '../application/Ingredien
 import { IngredientUpdater } from '../application/IngredientUpdater';
 import { UpdateIngredientDto } from './dtos/UpdateIngredient.dto';
 import { IdParam } from '../../shared/infrastructure/http/params/IdParam.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { IngredientsFinder } from '../application/IngredientsFinder';
 
+@ApiBearerAuth()
 @ApiTags('Ingredients')
 @Controller('ingredients')
 export class IngredientsController {

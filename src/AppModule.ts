@@ -13,6 +13,7 @@ import { ProductsModule } from './products/infrastructure/ProductsModule';
 import { Product } from './products/domain/Product';
 import { IngredientsModule } from './ingredients/infrastructure/IngredientsModule';
 import { Ingredient } from './ingredients/domain/Ingredient';
+import { AuthModule } from './shared/infrastructure/AuthModule';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { Ingredient } from './ingredients/domain/Ingredient';
     ProceduresModule,
     ProductsModule,
     IngredientsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [],

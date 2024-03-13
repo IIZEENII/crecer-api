@@ -1,4 +1,4 @@
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common';
 import { RecipeVariantCopier } from '../application/RecipeVariantCopier';
 import { IngredientAgregatorForRecipeVariant } from '../application/IngredientAgregatorForRecipeVariant';
@@ -14,6 +14,7 @@ import { AddIngredientsByIdDto } from './dtos/AddIngredientById.dto';
 import { CreateProcedureDto } from '@src/procedures/infrastructure/dtos/CreateProcedure.dto';
 import { UpdateRecipeVariantDto } from './dtos/UpdateRecipeVariant.dto';
 
+@ApiBearerAuth()
 @ApiTags('Recipe variants')
 @Controller('recipe-variants')
 export class RecipeVariantsController {
