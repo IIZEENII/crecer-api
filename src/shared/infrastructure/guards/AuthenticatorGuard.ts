@@ -40,7 +40,7 @@ export class AuthenticatorGuard implements CanActivate {
         secret: 'secret',
       });
       // TODO: generalizated employee by user if in the future will be consumers
-      request['enployee'] = payload;
+      request['employee'] = payload;
     } catch {
       throw new UnauthorizedException();
     }
