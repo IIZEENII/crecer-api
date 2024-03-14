@@ -1,7 +1,9 @@
 export enum Role {
-  MOTHER = 'mother',
-  BASIC_EMPLOYEE = 'basic_employee',
+  INVENTORY_ASSISTANT = 'inventory assistant',
+  PRODUCT_ASSISTANT = 'product assistant',
+  BASIC_EMPLOYEE = 'basic employee',
+  MOTHER_ADMIN = 'mother admin',
   TREASURER = 'treasurer',
-  PRODUCT_ASSISTANT = 'product_assistant',
-  INVENTORY_ASSISTANT = 'inventory_assistant',
+  ANALYST = 'analista',
+  BAKER = 'repostero',
 }
