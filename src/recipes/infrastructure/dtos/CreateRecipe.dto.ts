@@ -1,5 +1,5 @@
 import { Privacity } from '@src/recipes/domain/Privacity';
-import { Categories } from '@src/shared/domain/Categories';
+import { Category } from '@src/shared/domain/Category';
 import { IsEnum, Length } from 'class-validator';
 
 export class CreateRecipeDto {
@@ -9,8 +9,8 @@ export class CreateRecipeDto {
   @Length(10, 255)
   bookCover: string;
 
-  @IsEnum(Categories)
-  category: Categories;
+  @IsEnum(Category)
+  category: Category;
 
   @IsEnum(Privacity)
   privacity: Privacity;

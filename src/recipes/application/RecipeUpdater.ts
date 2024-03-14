@@ -3,7 +3,7 @@ import { UnitOfWorkForRecipes } from 'src/shared/infrastructure/unit-of-work/Uni
 import { UpdateRecipeDto } from '../infrastructure/dtos/UpdateRecipe.dto';
 import { Product } from '@src/products/domain/Product';
 import { RecipeVariant } from '@src/recipe-variants/domain/RecipeVariant';
-import { Categories } from '@src/shared/domain/Categories';
+import { Category } from '@src/shared/domain/Category';
 import { Recipe } from '../domain/Recipe';
 
 @Injectable()
@@ -39,7 +39,7 @@ export class RecipeUpdater {
 
   private async updateRecipeAndProducts(
     recipe: Recipe,
-    newCategory: Categories,
+    newCategory: Category,
   ): Promise<void> {
     await this.unitOfWork.recipeRepository.update(recipe.id, {
       category: newCategory,
@@ -57,7 +57,7 @@ export class RecipeUpdater {
     return variants.map((variant) => variant.product);
   }
 
-  private isCategoryEqualTo(recipe: Recipe, category: Categories): boolean {
+  private isCategoryEqualTo(recipe: Recipe, category: Category): boolean {
     return recipe.category === category;
   }
 }

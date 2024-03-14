@@ -1,5 +1,5 @@
 import { RecipeVariant } from '@src/recipe-variants/domain/RecipeVariant';
-import { Categories } from 'src/shared/domain/Categories';
+import { Category } from '@src/shared/domain/Category';
 import {
   Column,
   Entity,
@@ -25,8 +25,8 @@ export class Product {
   @Column({ nullable: true })
   description: string;
 
-  @Column({ type: 'enum', enum: Categories })
-  category: Categories;
+  @Column({ type: 'enum', enum: Category })
+  category: Category;
 
   @OneToOne(() => RecipeVariant, (recipeVariant) => recipeVariant.product)
   @JoinColumn()

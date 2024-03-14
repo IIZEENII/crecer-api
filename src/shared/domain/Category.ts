@@ -1,4 +1,4 @@
-export enum Categories {
+export enum Category {
   CAKES = 'pasteles',
   CUPCAKES = 'cupcakes',
   MOFFINS = 'moffins',
