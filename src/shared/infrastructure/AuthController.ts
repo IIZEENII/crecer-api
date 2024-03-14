@@ -18,7 +18,7 @@ export class AuthController {
   @Post('sign-in')
   async signIn(
     @Body() { email, password }: SignInEmployeeDto,
-  ): Promise<unknown> {
+  ): Promise<{ accessToken: string }> {
     const employee = await this.employeeFinder.findByEmail(email);
     return this.authenticator.signIn(employee, password);
   }
