@@ -1,13 +1,18 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { CreateEmployeeDto } from './dtos/CreateEmployee.dto';
 import { EmployeeCreator } from '../application/EmployeeCreator';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Employee } from '../domain/Employee';
 import { EmployeeFinder } from '../application/EmployeeFinder';
+import { Role } from '../domain/Role';
+import { Roles } from '@src/shared/infrastructure/decorators/Roles';
+import { RolesGuard } from '@src/shared/infrastructure/guards/RolesGuard';
 
 @ApiBearerAuth()
 @ApiTags('Employees')
 @Controller('employees')
+@UseGuards(RolesGuard)
+@Roles(Role.MOTHER_ADMIN)
 export class EmployeesController {
   constructor(
     private readonly employeCreator: EmployeeCreator,
