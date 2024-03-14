@@ -16,7 +16,10 @@ export class Authenticator {
     }
 
     return {
-      accessToken: await this.jwtService.signAsync({ id: employee.id }),
+      accessToken: await this.jwtService.signAsync({
+        id: employee.id,
+        roles: employee.roles,
+      }),
     };
   }
 }
