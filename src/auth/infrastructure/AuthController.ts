@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { EmployeeFinder } from '@src/employees/application/EmployeeFinder';
 import { Authenticator } from '../application/Authenticator';
 import { SignInEmployeeDto } from '@src/employees/infrastructure/dtos/SignInEmployee.dto';
-import { PublicRoute } from './decorators/PublicRoute';
+import { PublicRoute } from '../../shared/infrastructure/decorators/PublicRoute';
 
 @ApiTags('auth')
 @Controller()

@@ -4,7 +4,7 @@ import { Authenticator } from '../application/Authenticator';
 import { AuthController } from './AuthController';
 import { EmployeesModule } from '@src/employees/infrastructure/EmployeesModule';
 import { APP_GUARD } from '@nestjs/core';
-import { AuthenticatorGuard } from './guards/AuthenticatorGuard';
+import { AuthenticatorGuard } from '../../shared/infrastructure/guards/AuthenticatorGuard';
 
 @Module({
   imports: [
