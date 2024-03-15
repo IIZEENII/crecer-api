@@ -13,7 +13,10 @@ import { ProductsModule } from './products/infrastructure/ProductsModule';
 import { Product } from './products/domain/Product';
 import { IngredientsModule } from './ingredients/infrastructure/IngredientsModule';
 import { Ingredient } from './ingredients/domain/Ingredient';
-import { AuthModule } from './shared/infrastructure/AuthModule';
+import { AuthModule } from './auth/infrastructure/AuthModule';
+import { MailModule } from './mail/infrastructure/MailModule';
+import { join } from 'path';
+import { HandlebarsAdapter } from './auth/infrastructure/adapters/HandlebarsAdapter';
 
 @Module({
   imports: [
@@ -33,6 +36,19 @@ import { AuthModule } from './shared/infrastructure/AuthModule';
         Employee,
       ],
       synchronize: true,
+    }),
+    MailModule.forRoot({
+      host: 'smtp.ethereal.email',
+      port: Number(587),
+      secure: false,
+      auth: {
+        user: 'bernardo.schroeder@ethereal.email',
+        pass: 'ABDnUcCbjmqms12grz',
+      },
+      templete: {
+        adapter: new HandlebarsAdapter(),
+        dir: join(__dirname, '../../assets/templetes/mail'),
+      },
     }),
     RecipesModule,
     EmployeesModule,
