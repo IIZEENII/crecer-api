@@ -5,14 +5,17 @@ import { AuthController } from './AuthController';
 import { EmployeesModule } from '@src/employees/infrastructure/EmployeesModule';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthenticatorGuard } from '../../shared/infrastructure/guards/AuthenticatorGuard';
+import { EnvGetter } from '@src/shared/infrastructure/config/env/EnvGetter';
 
 @Module({
   imports: [
-    JwtModule.register({
+    JwtModule.registerAsync({
+      inject: [EnvGetter],
       global: true,
-      // TODO: change secret by env
-      secret: 'secret',
-      signOptions: { expiresIn: '6h' },
+      useFactory: (envGetter: EnvGetter) => ({
+        secret: envGetter.get('SIGNATURE_SECRET'),
+        signOptions: { expiresIn: '6h' },
+      }),
     }),
     EmployeesModule,
   ],

@@ -17,25 +17,34 @@ import { AuthModule } from './auth/infrastructure/AuthModule';
 import { MailModule } from './mail/infrastructure/MailModule';
 import { join } from 'path';
 import { HandlebarsAdapter } from './mail/infrastructure/adapters/HandlebarsAdapter';
+import { EnvConfigModule } from './shared/infrastructure/config/env/EnvConfigModule';
+import { EnvGetter } from './shared/infrastructure/config/env/EnvGetter';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'Utmisjimenez21032002',
-      database: 'crecer-database',
-      entities: [
-        Recipe,
-        RecipeVariant,
-        Procedure,
-        Product,
-        Ingredient,
-        Employee,
-      ],
-      synchronize: true,
+    TypeOrmModule.forRootAsync({
+      inject: [EnvGetter],
+      useFactory: (envGetter: EnvGetter) => ({
+        type: 'postgres',
+        host: envGetter.get('DATABASE_HOST'),
+        port: Number(envGetter.get('DATABASE_PORT')),
+        username: envGetter.get('DATABASE_USERNAME'),
+        password: envGetter.get('DATABASE_PASSWORD'),
+        database: envGetter.get('DATABASE_NAME'),
+        entities: [
+          Recipe,
+          RecipeVariant,
+          Procedure,
+          Product,
+          Ingredient,
+          Employee,
+        ],
+        synchronize: true,
+      }),
+    }),
+    EnvConfigModule.register({
+      folder: 'envs',
+      envFilePath: '.development.env',
     }),
     MailModule.forRoot({
       host: 'smtp.ethereal.email',

@@ -8,15 +8,16 @@ import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { IS_PUBLIC_KEY } from '../decorators/PublicRoute';
+import { EnvGetter } from '../config/env/EnvGetter';
 
 @Injectable()
 export class AuthenticatorGuard implements CanActivate {
   constructor(
     private readonly jwtService: JwtService,
     private readonly reflector: Reflector,
+    private readonly envGetter: EnvGetter,
   ) {}
 
-  // TODO: add refactoring of code
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
@@ -34,10 +35,9 @@ export class AuthenticatorGuard implements CanActivate {
       throw new UnauthorizedException('no token has been provided');
     }
 
-    // TODO: change secret by env
     try {
       const payload = await this.jwtService.verifyAsync(token, {
-        secret: 'secret',
+        secret: this.envGetter.get('SIGNATURE_SECRET'),
       });
       // TODO: generalizated employee by user if in the future will be consumers
       request['employee'] = payload;
