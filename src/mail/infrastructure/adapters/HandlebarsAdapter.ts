@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs';
-import { TempleteAdapter } from './TempleteAdapter';
+import { TempleteAdapter } from '../interfaces/TempleteAdapter';
 import { compile } from 'handlebars';
 import { TempleteNotFoundExeption } from './TempleteNotFoundExeption';
 
