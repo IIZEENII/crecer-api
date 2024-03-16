@@ -16,7 +16,7 @@ import { Ingredient } from './ingredients/domain/Ingredient';
 import { AuthModule } from './auth/infrastructure/AuthModule';
 import { MailModule } from './mail/infrastructure/MailModule';
 import { join } from 'path';
-import { HandlebarsAdapter } from './auth/infrastructure/adapters/HandlebarsAdapter';
+import { HandlebarsAdapter } from './mail/infrastructure/adapters/HandlebarsAdapter';
 
 @Module({
   imports: [

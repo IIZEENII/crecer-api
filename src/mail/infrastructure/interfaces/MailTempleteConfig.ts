@@ -1,4 +1,4 @@
-import { TempleteAdapter } from '@src/auth/infrastructure/adapters/TempleteAdapter';
+import { TempleteAdapter } from './TempleteAdapter';
 
 export interface MailTempleteConfig {
   dir: string;
