@@ -37,7 +37,7 @@ export class AuthenticatorGuard implements CanActivate {
 
     try {
       const payload = await this.jwtService.verifyAsync(token, {
-        secret: this.envGetter.get('SIGNATURE_SECRET'),
+        secret: this.envGetter.get('SECRET_SIGNATURE'),
       });
       // TODO: generalizated employee by user if in the future will be consumers
       request['employee'] = payload;

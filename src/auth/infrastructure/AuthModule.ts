@@ -13,7 +13,7 @@ import { EnvGetter } from '@src/shared/infrastructure/config/env/EnvGetter';
       inject: [EnvGetter],
       global: true,
       useFactory: (envGetter: EnvGetter) => ({
-        secret: envGetter.get('SIGNATURE_SECRET'),
+        secret: envGetter.get('SECRET_SIGNATURE'),
         signOptions: { expiresIn: '6h' },
       }),
     }),
