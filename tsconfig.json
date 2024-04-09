@@ -22,6 +22,6 @@
       "@src/*": ["src/*"],
       "@shared/*": ["src/shared/*"]
     },
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals", "node", "Multer"]
   }
 }

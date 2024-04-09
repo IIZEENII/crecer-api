@@ -1,7 +1,7 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { Transporter, createTransport } from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
-import { MailSender } from '../application/MailSender';
+import { MailSender } from './services/MailSender';
 import { MailConfig } from './interfaces/MailConfig';
 import { SMTP_TRANSPORTER, TEMPLETE_CONFIG } from './constants';
 

@@ -1,14 +1,30 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Query,
+  Request,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { CreateEmployeeDto } from './dtos/CreateEmployee.dto';
 import { EmployeeCreator } from '../application/EmployeeCreator';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { Employee } from '../domain/Employee';
 import { EmployeeFinder } from '../application/EmployeeFinder';
 import { Role } from '../domain/Role';
 import { Roles } from '@src/shared/infrastructure/decorators/Roles';
 import { RolesGuard } from '@src/shared/infrastructure/guards/RolesGuard';
 import { EmployeeInvitationSender } from '../application/EmployeeInvitationSender';
-
+import { AvatarUploader } from '../application/AvatarUploader';
+import { AvatarDeleter } from '../application/AvatarDeleter';
+import { Express } from 'express';
+import { FileUploadDto } from '@src/shared/infrastructure/dtos/FileUpload.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { EmployeeUpdater } from '../application/EmployeeUpdater';
 @ApiBearerAuth()
 @ApiTags('Employees')
 @Controller('employees')
@@ -18,12 +34,40 @@ export class EmployeesController {
   constructor(
     private readonly employeCreator: EmployeeCreator,
     private readonly employeFinder: EmployeeFinder,
+    private readonly employeUpdater: EmployeeUpdater,
     private readonly employeeInvitationSender: EmployeeInvitationSender,
+    private readonly avatarUploader: AvatarUploader,
+    private readonly avatarDeleter: AvatarDeleter,
   ) {}
 
   @Post('send-invitation')
   async sendInvitation(@Query('email') email: string): Promise<void> {
     return this.employeeInvitationSender.sendInvitationToCollaborate(email);
+  }
+
+  @Post('avatar')
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    type: FileUploadDto,
+  })
+  async uploadAvatar(
+    @Request() request: any,
+    @UploadedFile('file') file: Express.Multer.File,
+  ): Promise<void> {
+    const employee = await this.employeFinder.findById(request.employee.id);
+    const uploadResult = await this.avatarUploader.uploadAvatar(
+      file,
+      employee.id,
+    );
+    employee.avatar = uploadResult.url;
+    this.employeUpdater.update(employee.id, { ...employee });
+  }
+
+  @Delete('avatar')
+  async removeAvatar(@Request() request: any): Promise<void> {
+    this.employeFinder.findById(request.employee.id);
+    return this.avatarDeleter.delete('public_id');
   }
 
   @Post()

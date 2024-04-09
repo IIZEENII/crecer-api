@@ -14,6 +14,15 @@ export class EmployeeFinder {
     return this.employeeRepository.find();
   }
 
+  async findById(id: string): Promise<Employee> {
+    const employee = await this.employeeRepository.findOneBy({ id });
+    if (!employee) {
+      throw new NotFoundException('this acccount not exists');
+    }
+
+    return employee;
+  }
+
   async findByEmail(email: string): Promise<Employee> {
     const employee = await this.employeeRepository.findOneBy({ email });
 

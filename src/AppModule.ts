@@ -1,3 +1,4 @@
+import { join } from 'path';
 import { Module } from '@nestjs/common';
 import { AppController } from './AppController';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -14,11 +15,11 @@ import { Product } from './products/domain/Product';
 import { IngredientsModule } from './ingredients/infrastructure/IngredientsModule';
 import { Ingredient } from './ingredients/domain/Ingredient';
 import { AuthModule } from './auth/infrastructure/AuthModule';
-import { MailModule } from './mail/infrastructure/MailModule';
-import { join } from 'path';
-import { HandlebarsAdapter } from './mail/infrastructure/adapters/HandlebarsAdapter';
+import { MailModule } from './shared/infrastructure/modules/mail/MailModule';
 import { EnvConfigModule } from './shared/infrastructure/config/env/EnvConfigModule';
 import { EnvGetter } from './shared/infrastructure/config/env/EnvGetter';
+import { HandlebarsAdapter } from './shared/infrastructure/modules/mail/adapters/HandlebarsAdapter';
+import { CloudinaryModule } from './shared/infrastructure/modules/cloudinary/CloudinaryModule';
 
 @Module({
   imports: [
@@ -58,6 +59,14 @@ import { EnvGetter } from './shared/infrastructure/config/env/EnvGetter';
         adapter: new HandlebarsAdapter(),
         dir: join(__dirname, '../../assets/templetes/mail'),
       },
+    }),
+    CloudinaryModule.registerAsync({
+      inject: [EnvGetter],
+      useFactory: (envGetter: EnvGetter) => ({
+        cloud_name: envGetter.get('CLOUDINARY_CLOUD_NAME'),
+        api_key: envGetter.get('CLOUDINARY_API_KEY'),
+        api_secret: envGetter.get('CLOUDINARY_API_SECRET'),
+      }),
     }),
     RecipesModule,
     EmployeesModule,

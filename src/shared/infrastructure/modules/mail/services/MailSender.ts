@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Transporter } from 'nodemailer';
 import { join } from 'path';
-import { SMTP_TRANSPORTER, TEMPLETE_CONFIG } from '../infrastructure/constants';
-import { MailTempleteConfig } from '../infrastructure/interfaces/MailTempleteConfig';
-import { MailSenderOptions } from '../infrastructure/interfaces/MailSenderOptions';
+import { SMTP_TRANSPORTER, TEMPLETE_CONFIG } from '../constants';
+import { MailTempleteConfig } from '../interfaces/MailTempleteConfig';
+import { MailSenderOptions } from '../interfaces/MailSenderOptions';
 
 @Injectable()
 export class MailSender {

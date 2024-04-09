@@ -4,7 +4,7 @@ import { ProcedureFinder } from '../application/ProcedureFinder';
 import { IdParam } from '@src/shared/infrastructure/http/params/IdParam.dto';
 import { ProcedureUpdater } from '../application/ProcedureUpdater';
 import { ProcedureDeleter } from '../application/ProcedureDeleter';
-import { UpdateProcedure } from './dtos/UpdateProcedure.dto';
+import { UpdateProcedureDto } from './dtos/UpdateProcedure.dto';
 
 @ApiBearerAuth()
 @ApiTags('Procedures')
@@ -19,7 +19,7 @@ export class ProceduresController {
   @Patch(':id')
   async update(
     @Param() { id }: IdParam,
-    @Body() updateProcedure: UpdateProcedure,
+    @Body() updateProcedure: UpdateProcedureDto,
   ): Promise<void> {
     const procedure = await this.procedureFinder.findById(id);
     await this.procedureUpdater.update(procedure.id, updateProcedure);
