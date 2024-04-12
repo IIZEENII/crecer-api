@@ -47,6 +47,6 @@ export class InvitationCreator {
   }
 
   private generateToken(): string {
-    return randomBytes(16).toString('hex');
+    return randomBytes(24).toString('hex');
   }
 }
