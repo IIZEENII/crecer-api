@@ -1,26 +1,27 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { EventEmitterModule } from '@nestjs/event-emitter';
 import { EmployeesController } from './EmployeesController';
 import { Employee } from '../domain/Employee';
 import { EmployeeCreator } from '../application/EmployeeCreator';
 import { EmployeeFinder } from '../application/EmployeeFinder';
-import { EmployeeInvitationSender } from '../application/EmployeeInvitationSender';
+import { InvitationSender } from '../../invitedAccounts/application/InvitationSender';
 import { AvatarUploader } from '../application/AvatarUploader';
 import { AvatarDeleter } from '../application/AvatarDeleter';
 import { EmployeeUpdater } from '../application/EmployeeUpdater';
+import { UnitOfWorkForInvitations } from '@src/shared/infrastructure/unitOfWork/UnitOfWorkForInvitations';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Employee]), EventEmitterModule.forRoot()],
+  imports: [TypeOrmModule.forFeature([Employee])],
   controllers: [EmployeesController],
   providers: [
     EmployeeCreator,
     EmployeeFinder,
-    EmployeeInvitationSender,
+    InvitationSender,
     AvatarUploader,
     AvatarDeleter,
     EmployeeUpdater,
+    UnitOfWorkForInvitations,
   ],
-  exports: [EmployeeFinder],
+  exports: [EmployeeFinder, EmployeeCreator],
 })
 export class EmployeesModule {}

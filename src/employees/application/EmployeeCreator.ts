@@ -1,17 +1,22 @@
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Employee } from '../domain/Employee';
 import { CreateEmployeeDto } from '../infrastructure/dtos/CreateEmployee.dto';
 import { Injectable } from '@nestjs/common';
+import { UnitOfWorkForInvitations } from '@src/shared/infrastructure/unitOfWork/UnitOfWorkForInvitations';
 
 @Injectable()
 export class EmployeeCreator {
-  constructor(
-    @InjectRepository(Employee)
-    private readonly employeeRepository: Repository<Employee>,
-  ) {}
+  constructor(private readonly unitOfWork: UnitOfWorkForInvitations) {}
 
   async create(createEmployeeDto: CreateEmployeeDto): Promise<void> {
-    await this.employeeRepository.save(createEmployeeDto);
+    try {
+      await this.unitOfWork.beginTransaction();
+      await this.unitOfWork.employeeRepository.save(createEmployeeDto);
+      await this.unitOfWork.invitedAccountRepository.delete({
+        email: createEmployeeDto.email,
+      });
+      await this.unitOfWork.commitTransaction();
+    } catch (error) {
+      await this.unitOfWork.rollbackTransaction();
+      throw error;
+    }
   }
 }

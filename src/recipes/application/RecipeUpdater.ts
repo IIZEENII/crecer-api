@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UnitOfWorkForRecipes } from 'src/shared/infrastructure/unit-of-work/UnitOfWorkForRecipes';
+import { UnitOfWorkForRecipes } from '@src/shared/infrastructure/unitOfWork/UnitOfWorkForRecipes';
 import { UpdateRecipeDto } from '../infrastructure/dtos/UpdateRecipe.dto';
 import { Product } from '@src/products/domain/Product';
 import { RecipeVariant } from '@src/recipe-variants/domain/RecipeVariant';

@@ -6,6 +6,7 @@ import { EmployeesModule } from '@src/employees/infrastructure/EmployeesModule';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthenticatorGuard } from '../../shared/infrastructure/guards/AuthenticatorGuard';
 import { EnvGetter } from '@src/shared/infrastructure/config/env/EnvGetter';
+import { InvitedAccountsModule } from '@src/invitedAccounts/infrastructure/InvitedAccountsModule';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { EnvGetter } from '@src/shared/infrastructure/config/env/EnvGetter';
       }),
     }),
     EmployeesModule,
+    InvitedAccountsModule,
   ],
   providers: [
     Authenticator,

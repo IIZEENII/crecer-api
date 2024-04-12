@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRecipeDto } from '../infrastructure/dtos/CreateRecipe.dto';
-import { UnitOfWorkForRecipes } from 'src/shared/infrastructure/unit-of-work/UnitOfWorkForRecipes';
+import { UnitOfWorkForRecipes } from '@src/shared/infrastructure/unitOfWork/UnitOfWorkForRecipes';
 
 @Injectable()
 export class RecipeCreator {

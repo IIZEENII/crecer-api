@@ -20,6 +20,8 @@ import { EnvConfigModule } from './shared/infrastructure/config/env/EnvConfigMod
 import { EnvGetter } from './shared/infrastructure/config/env/EnvGetter';
 import { HandlebarsAdapter } from './shared/infrastructure/modules/mail/adapters/HandlebarsAdapter';
 import { CloudinaryModule } from './shared/infrastructure/modules/cloudinary/CloudinaryModule';
+import { InvitedAccountsModule } from './invitedAccounts/infrastructure/InvitedAccountsModule';
+import { InvitedAccount } from './invitedAccounts/domain/InvitedAccount';
 
 @Module({
   imports: [
@@ -39,6 +41,7 @@ import { CloudinaryModule } from './shared/infrastructure/modules/cloudinary/Clo
           Product,
           Ingredient,
           Employee,
+          InvitedAccount,
         ],
         synchronize: true,
       }),
@@ -47,18 +50,21 @@ import { CloudinaryModule } from './shared/infrastructure/modules/cloudinary/Clo
       folder: 'envs',
       envFilePath: '.development.env',
     }),
-    MailModule.forRoot({
-      host: 'smtp.ethereal.email',
-      port: Number(587),
-      secure: false,
-      auth: {
-        user: 'bernardo.schroeder@ethereal.email',
-        pass: 'ABDnUcCbjmqms12grz',
-      },
-      templete: {
-        adapter: new HandlebarsAdapter(),
-        dir: join(__dirname, '../../assets/templetes/mail'),
-      },
+    MailModule.registerAsync({
+      inject: [EnvGetter],
+      useFactory: (envGetter: EnvGetter) => ({
+        host: envGetter.get('EMAIL_HOST'),
+        port: Number(envGetter.get('EMAIL_PORT')),
+        secure: false,
+        auth: {
+          user: envGetter.get('EMAIL_USER'),
+          pass: envGetter.get('EMAIL_PASSWORD'),
+        },
+        templete: {
+          adapter: new HandlebarsAdapter(),
+          dir: join(__dirname, '../../assets/templetes/mail'),
+        },
+      }),
     }),
     CloudinaryModule.registerAsync({
       inject: [EnvGetter],
@@ -74,6 +80,7 @@ import { CloudinaryModule } from './shared/infrastructure/modules/cloudinary/Clo
     ProceduresModule,
     ProductsModule,
     IngredientsModule,
+    InvitedAccountsModule,
     AuthModule,
   ],
   controllers: [AppController],

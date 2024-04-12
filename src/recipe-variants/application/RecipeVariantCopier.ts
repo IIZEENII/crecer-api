@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CopyRecipeVariantDto } from '../infrastructure/dtos/CopyRecipeVariant.dto';
-import { UnitOfWorkForRecipes } from 'src/shared/infrastructure/unit-of-work/UnitOfWorkForRecipes';
+import { UnitOfWorkForRecipes } from '@src/shared/infrastructure/unitOfWork/UnitOfWorkForRecipes';
 import { RecipeVariant } from '../domain/RecipeVariant';
 
 @Injectable()

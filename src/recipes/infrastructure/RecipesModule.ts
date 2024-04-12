@@ -5,7 +5,7 @@ import { RecipeCreator } from '../application/RecipeCreator';
 import { RecipeFinder } from '../application/RecipeFinder';
 import { Recipe } from '../domain/Recipe';
 import { RecipeUpdater } from '../application/RecipeUpdater';
-import { UnitOfWorkForRecipes } from 'src/shared/infrastructure/unit-of-work/UnitOfWorkForRecipes';
+import { UnitOfWorkForRecipes } from '@src/shared/infrastructure/unitOfWork/UnitOfWorkForRecipes';
 import { RecipeDeleter } from '../application/RecipeDeleter';
 import { RecipeVariantsModule } from '@src/recipe-variants/infrastructure/RecipeVariantsModule';
 

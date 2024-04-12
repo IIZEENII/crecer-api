@@ -29,7 +29,11 @@ export class CloudinaryService {
     }
   }
 
-  async remove(resourcePublicId: string) {
-    return await this.cloudinaryClient.uploader.destroy(resourcePublicId);
+  async remove(resourcePublicId: string): Promise<any> {
+    try {
+      return await this.cloudinaryClient.uploader.destroy(resourcePublicId);
+    } catch (error) {
+      console.error(error);
+    }
   }
 }

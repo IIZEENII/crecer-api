@@ -6,6 +6,6 @@ export class AvatarDeleter {
   constructor(private readonly cloudinaryService: CloudinaryService) {}
 
   async delete(avatarImagePublicId: string): Promise<void> {
-    console.log(avatarImagePublicId);
+    this.cloudinaryService.remove(avatarImagePublicId);
   }
 }
