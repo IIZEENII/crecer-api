@@ -45,7 +45,7 @@ export class IngredientsController {
 
   @Get()
   async findAll(
-    @Query() pageOptionsDto: PageOptionsDto
+    @Query() pageOptionsDto: PageOptionsDto,
   ): Promise<PageDto<Ingredient>> {
     return this.ingredientsFinder.findAll(pageOptionsDto);
   }

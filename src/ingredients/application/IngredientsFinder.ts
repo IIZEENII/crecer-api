@@ -32,7 +32,10 @@ export class IngredientsFinder {
 
     const itemCount = await queryBuilder.getCount();
     const { entities } = await queryBuilder.getRawAndEntities();
-    const pageMeta = new PageMetaDto({ itemCount, pageOptionsDto: filterOptions });
+    const pageMeta = new PageMetaDto({
+      itemCount,
+      pageOptionsDto: filterOptions,
+    });
 
     return new PageDto(entities, pageMeta);
   }

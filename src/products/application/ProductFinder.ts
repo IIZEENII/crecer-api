@@ -15,23 +15,30 @@ export class ProductFinder {
   ) {}
 
   async findAll(filterOptions: PageOptionsDto): Promise<PageDto<ProductDto>> {
-    const queryBuilder = this.productRepository.createQueryBuilder('product')
+    const queryBuilder = this.productRepository.createQueryBuilder('product');
 
-      queryBuilder.leftJoinAndSelect('product.recipeVariant', 'variant')
-      .leftJoinAndSelect('variant.recipe', 'recipe').orderBy(filterOptions.order)
+    queryBuilder
+      .leftJoinAndSelect('product.recipeVariant', 'variant')
+      .leftJoinAndSelect('variant.recipe', 'recipe')
+      .orderBy(filterOptions.order)
       .skip(filterOptions.skip)
       .take(filterOptions.take)
       .getMany();
 
     const itemCount = await queryBuilder.getCount();
     const { entities } = await queryBuilder.getRawAndEntities();
-    const pageMeta = new PageMetaDto({ itemCount, pageOptionsDto: filterOptions });
-    
-    const products = entities.map(({ recipeVariant: { recipe }, ...product }) => {
-      return { ...product, category: recipe.category };
+    const pageMeta = new PageMetaDto({
+      itemCount,
+      pageOptionsDto: filterOptions,
     });
 
-    return new PageDto(products, pageMeta); 
+    const products = entities.map(
+      ({ recipeVariant: { recipe }, ...product }) => {
+        return { ...product, category: recipe.category };
+      },
+    );
+
+    return new PageDto(products, pageMeta);
   }
 
   async findById(id: string): Promise<ProductDto> {

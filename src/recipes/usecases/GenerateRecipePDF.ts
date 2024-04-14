@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Recipe } from '../domain/Recipe';
+import { Recipe } from '../entities/recipe';
 import PDFDocument from 'pdfkit';
 @Injectable()
 export class RecipePDFGenerator {

@@ -1,8 +1,8 @@
 import { join } from 'path';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RecipesModule } from './recipes/infrastructure/RecipesModule';
-import { Recipe } from './recipes/domain/Recipe';
+import { RecipesModule } from './recipes/RecipesModule';
+import { Recipe } from './recipes/entities/recipe';
 import { EmployeesModule } from './employees/infrastructure/EmployeesModule';
 import { Employee } from './employees/domain/Employee';
 import { RecipeVariantsModule } from './recipe-variants/infrastructure/RecipeVariantsModule';
@@ -21,6 +21,7 @@ import { HandlebarsAdapter } from './shared/infrastructure/modules/mail/adapters
 import { CloudinaryModule } from './shared/infrastructure/modules/cloudinary/CloudinaryModule';
 import { InvitedAccountsModule } from './invitedAccounts/infrastructure/InvitedAccountsModule';
 import { InvitedAccount } from './invitedAccounts/domain/InvitedAccount';
+import { UserAccountsModule } from './userAccounts/UserAccounts.module';
 
 @Module({
   imports: [
@@ -80,6 +81,7 @@ import { InvitedAccount } from './invitedAccounts/domain/InvitedAccount';
     ProductsModule,
     IngredientsModule,
     InvitedAccountsModule,
+    UserAccountsModule,
     AuthModule,
   ],
   controllers: [],

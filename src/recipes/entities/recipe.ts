@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Privacity } from './Privacity';
+import { Privacity } from '../enums/privacity';
 import { RecipeVariant } from '@src/recipe-variants/domain/RecipeVariant';
 import { Category } from '@src/shared/domain/Category';
 

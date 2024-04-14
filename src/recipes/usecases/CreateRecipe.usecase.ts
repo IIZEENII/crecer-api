@@ -1,23 +1,23 @@
 import { Injectable } from '@nestjs/common';
-import { CreateRecipeDto } from '../infrastructure/dtos/CreateRecipe.dto';
+import { CreateRecipeDto } from '../dtos/CreateRecipe.dto';
 import { UnitOfWorkForRecipes } from '@src/shared/infrastructure/unitOfWork/UnitOfWorkForRecipes';
 
 @Injectable()
-export class RecipeCreator {
+export class CreateRecipeUsecase {
   private static firstRecipeVariantName = 'variante-1';
 
   constructor(private readonly unitOfWork: UnitOfWorkForRecipes) {}
 
-  async create(createRecipeDto: CreateRecipeDto): Promise<void> {
+  async execute(createRecipeDto: CreateRecipeDto): Promise<void> {
     try {
-      return this.tryToCreate(createRecipeDto);
+      return this.tryExecute(createRecipeDto);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       await this.unitOfWork.rollbackTransaction();
     }
   }
 
-  async tryToCreate(createRecipeDto: CreateRecipeDto): Promise<void> {
+  async tryExecute(createRecipeDto: CreateRecipeDto): Promise<void> {
     await this.unitOfWork.beginTransaction();
 
     const recipeCreated =
@@ -25,12 +25,12 @@ export class RecipeCreator {
 
     const recipeVariantCreated =
       await this.unitOfWork.recipeVariantRepository.save({
-        name: RecipeCreator.firstRecipeVariantName,
+        name: CreateRecipeUsecase.firstRecipeVariantName,
         recipe: recipeCreated,
       });
 
     await this.unitOfWork.productRepository.insert({
-      name: RecipeCreator.firstRecipeVariantName,
+      name: CreateRecipeUsecase.firstRecipeVariantName,
       recipeVariant: recipeVariantCreated,
     });
 

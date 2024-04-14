@@ -1,25 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { UnitOfWorkForRecipes } from '@src/shared/infrastructure/unitOfWork/UnitOfWorkForRecipes';
-import { UpdateRecipeDto } from '../infrastructure/dtos/UpdateRecipe.dto';
-import { Recipe } from '../domain/Recipe';
+import { UpdateRecipeDto } from '../dtos/UpdateRecipe.dto';
+import { Recipe } from '../entities/recipe';
 
 @Injectable()
-export class RecipeUpdater {
+export class UpdateRecipeUsecase {
   constructor(private readonly unitOfWork: UnitOfWorkForRecipes) {}
 
-  async update(
+  async execute(
     recipe: Recipe,
     updateRecipeCategoryDto: UpdateRecipeDto,
   ): Promise<void> {
     try {
-      return this.tryToUpdate(recipe, updateRecipeCategoryDto);
+      return this.tryToExecute(recipe, updateRecipeCategoryDto);
     } catch (error) {
       console.error(error);
       this.unitOfWork.rollbackTransaction();
     }
   }
 
-  private async tryToUpdate(
+  private async tryToExecute(
     recipe: Recipe,
     updateRecipeDto: UpdateRecipeDto,
   ): Promise<void> {

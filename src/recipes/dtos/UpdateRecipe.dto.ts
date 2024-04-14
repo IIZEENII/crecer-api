@@ -1,8 +1,8 @@
-import { Privacity } from '@src/recipes/domain/Privacity';
-import { Category } from '@src/shared/domain/Category';
+import { Privacity } from '@src/recipes/enums/privacity';
 import { IsEnum, Length } from 'class-validator';
+import { Category } from '@src/shared/domain/Category';
 
-export class CreateRecipeDto {
+export class UpdateRecipeDto {
   @Length(1, 64)
   title: string;
 

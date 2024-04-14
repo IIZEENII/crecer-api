@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Patch, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Query,
+} from '@nestjs/common';
 import { Product } from '../domain/Product';
 import { ProductFinder } from '../application/ProductFinder';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -22,7 +30,7 @@ export class ProductsController {
 
   @Get()
   async findAll(
-    @Query() filterOptionsDto: PageOptionsDto
+    @Query() filterOptionsDto: PageOptionsDto,
   ): Promise<PageDto<ProductDto>> {
     return this.productsFinder.findAll(filterOptionsDto);
   }

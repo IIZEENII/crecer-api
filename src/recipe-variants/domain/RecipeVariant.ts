@@ -1,6 +1,6 @@
 import { Ingredient } from 'src/ingredients/domain/Ingredient';
 import { Procedure } from '@src/procedures/domain/Producedure';
-import { Recipe } from '@src/recipes/domain/Recipe';
+import { Recipe } from '@src/recipes/entities/recipe';
 
 import {
   Column,

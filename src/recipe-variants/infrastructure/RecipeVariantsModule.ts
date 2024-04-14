@@ -6,7 +6,6 @@ import { UnitOfWorkForRecipes } from '@src/shared/infrastructure/unitOfWork/Unit
 import { RecipeVariantCopier } from '../application/RecipeVariantCopier';
 import { RecipeVariantFinder } from '../application/RecipeVariantFinder';
 import { IngredientAgregatorForRecipeVariant } from '../application/IngredientAgregatorForRecipeVariant';
-import { RecipeVariantCreator } from '../application/RecipeVariantCreator';
 import { IngredientsModule } from '@src/ingredients/infrastructure/IngredientsModule';
 import { IngredientRemoverForRecipeVariant } from '../application/IngredientRemoveForRecipeVariant';
 import { ProcedureCreatorForRecipeVariant } from '../application/ProcedureCreatorForRecipeVariant';
@@ -20,13 +19,12 @@ import { RecipeVariantDeleter } from '../application/RecipeVariantDeleter';
     RecipeVariantCopier,
     RecipeVariantFinder,
     UnitOfWorkForRecipes,
-    RecipeVariantCreator,
     RecipeVariantUpdater,
     RecipeVariantDeleter,
     IngredientAgregatorForRecipeVariant,
     IngredientRemoverForRecipeVariant,
     ProcedureCreatorForRecipeVariant,
   ],
-  exports: [RecipeVariantCreator],
+  exports: [],
 })
 export class RecipeVariantsModule {}
