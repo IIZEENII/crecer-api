@@ -1,8 +1,10 @@
 import {
+  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
   Post,
+  Query,
   Request,
   UploadedFile,
   UseGuards,
@@ -20,8 +22,12 @@ import { Express } from 'express';
 import { FileUploadDto } from '@src/shared/infrastructure/dtos/FileUpload.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { EmployeeUpdater } from '../application/EmployeeUpdater';
+import { PageOptionsDto } from '@src/shared/infrastructure/dtos/PageOptions.dto';
+import { PageDto } from '@src/shared/infrastructure/dtos/Page.dto';
+
 @ApiBearerAuth()
 @ApiTags('Employees')
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('employees')
 @UseGuards(RolesGuard)
 @Roles(Role.MOTHER_ADMIN)
@@ -64,7 +70,9 @@ export class EmployeesController {
   }
 
   @Get()
-  async findAll(): Promise<Employee[]> {
-    return await this.employeFinder.findAll();
+  async findAll(
+    @Query() pageOptionsDto: PageOptionsDto,
+  ): Promise<PageDto<Employee>> {
+    return await this.employeFinder.findAll(pageOptionsDto);
   }
 }

@@ -1,6 +1,5 @@
 import { join } from 'path';
 import { Module } from '@nestjs/common';
-import { AppController } from './AppController';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RecipesModule } from './recipes/infrastructure/RecipesModule';
 import { Recipe } from './recipes/domain/Recipe';
@@ -43,7 +42,7 @@ import { InvitedAccount } from './invitedAccounts/domain/InvitedAccount';
           Employee,
           InvitedAccount,
         ],
-        synchronize: true,
+        synchronize: false,
       }),
     }),
     EnvConfigModule.register({
@@ -83,7 +82,7 @@ import { InvitedAccount } from './invitedAccounts/domain/InvitedAccount';
     InvitedAccountsModule,
     AuthModule,
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [],
 })
 export class AppModule {}

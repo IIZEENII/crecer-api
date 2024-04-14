@@ -23,7 +23,7 @@ export class RecipeCreator {
     const recipeCreated =
       await this.unitOfWork.recipeRepository.save(createRecipeDto);
 
-    const defaultRecipeVariantCreated =
+    const recipeVariantCreated =
       await this.unitOfWork.recipeVariantRepository.save({
         name: RecipeCreator.firstRecipeVariantName,
         recipe: recipeCreated,
@@ -31,8 +31,7 @@ export class RecipeCreator {
 
     await this.unitOfWork.productRepository.insert({
       name: RecipeCreator.firstRecipeVariantName,
-      category: recipeCreated.category,
-      recipeVariant: defaultRecipeVariantCreated,
+      recipeVariant: recipeVariantCreated,
     });
 
     await this.unitOfWork.commitTransaction();

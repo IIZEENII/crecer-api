@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { Ingredient } from '../domain/Ingredient';
 import { IngredientCreator } from '../application/IngredientCreator';
@@ -16,6 +17,8 @@ import { UpdateIngredientDto } from './dtos/UpdateIngredient.dto';
 import { IdParam } from '../../shared/infrastructure/http/params/IdParam.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { IngredientsFinder } from '../application/IngredientsFinder';
+import { PageDto } from '@src/shared/infrastructure/dtos/Page.dto';
+import { PageOptionsDto } from '@src/shared/infrastructure/dtos/PageOptions.dto';
 
 @ApiBearerAuth()
 @ApiTags('Ingredients')
@@ -41,8 +44,10 @@ export class IngredientsController {
   }
 
   @Get()
-  async findAll(): Promise<Ingredient[]> {
-    return this.ingredientsFinder.findAll();
+  async findAll(
+    @Query() pageOptionsDto: PageOptionsDto
+  ): Promise<PageDto<Ingredient>> {
+    return this.ingredientsFinder.findAll(pageOptionsDto);
   }
 
   @Patch(':id')

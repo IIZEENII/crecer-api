@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { CreateRecipeDto } from './dtos/CreateRecipe.dto';
 import { Recipe } from '../domain/Recipe';
@@ -18,6 +19,8 @@ import { RecipeUpdater } from '../application/RecipeUpdater';
 import { RecipeDeleter } from '../application/RecipeDeleter';
 import { CreateRecipeVariantDto } from '@src/recipe-variants/infrastructure/dtos/CreateRecipeVariant.dto';
 import { RecipeVariantCreator } from '@src/recipe-variants/application/RecipeVariantCreator';
+import { PageDto } from '@src/shared/infrastructure/dtos/Page.dto';
+import { PageOptionsDto } from '@src/shared/infrastructure/dtos/PageOptions.dto';
 
 @ApiBearerAuth()
 @ApiTags('Recipes')
@@ -32,8 +35,10 @@ export class RecipesController {
   ) {}
 
   @Get()
-  async findAll(): Promise<Recipe[]> {
-    return this.recipeFinder.findAll();
+  async findAll(
+    @Query() pageOptionsDto: PageOptionsDto
+  ): Promise<PageDto<Recipe>> {
+    return this.recipeFinder.findAll(pageOptionsDto);
   }
 
   @Get(':id')
@@ -46,6 +51,7 @@ export class RecipesController {
     return this.recipeFinder.findWithVariantsById(id);
   }
 
+  //TODO: implement
   @Get(':id/to-pdf')
   async generatedPDF(@Param() { id }: IdParam): Promise<void> {
     console.log(id);
@@ -65,12 +71,14 @@ export class RecipesController {
     this.recipeCategoryUpdater.update(recipe, updateRecipeDto);
   }
 
+  //TODO:
   @Delete(':id')
   async delete(@Param() { id }: IdParam): Promise<void> {
     const recipe = await this.recipeFinder.findById(id);
     return this.recipeDeleter.delete(recipe);
   }
 
+  //TODO:
   @Post(':id/variants')
   async createVariant(
     @Param() { id }: IdParam,
@@ -78,10 +86,5 @@ export class RecipesController {
   ): Promise<void> {
     console.log(id);
     this.recipeVariantCreator.create(createRecipeVariantDto);
-  }
-
-  @Delete(':id/variants/:id')
-  async deleteVariant(@Param() { id }: IdParam): Promise<void> {
-    console.log(id);
   }
 }

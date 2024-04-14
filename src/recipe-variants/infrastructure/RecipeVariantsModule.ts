@@ -11,6 +11,7 @@ import { IngredientsModule } from '@src/ingredients/infrastructure/IngredientsMo
 import { IngredientRemoverForRecipeVariant } from '../application/IngredientRemoveForRecipeVariant';
 import { ProcedureCreatorForRecipeVariant } from '../application/ProcedureCreatorForRecipeVariant';
 import { RecipeVariantUpdater } from '../application/RecipeVariantUpdater';
+import { RecipeVariantDeleter } from '../application/RecipeVariantDeleter';
 
 @Module({
   imports: [TypeOrmModule.forFeature([RecipeVariant]), IngredientsModule],
@@ -21,6 +22,7 @@ import { RecipeVariantUpdater } from '../application/RecipeVariantUpdater';
     UnitOfWorkForRecipes,
     RecipeVariantCreator,
     RecipeVariantUpdater,
+    RecipeVariantDeleter,
     IngredientAgregatorForRecipeVariant,
     IngredientRemoverForRecipeVariant,
     ProcedureCreatorForRecipeVariant,

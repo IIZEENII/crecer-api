@@ -8,9 +8,9 @@ export class ProductDisabler {
     private readonly productRepository: Repository<Product>,
   ) {}
 
-  async disable(product: Product): Promise<void> {
+  async disable(id: string): Promise<void> {
     try {
-      await this.productRepository.softRemove(product);
+      await this.productRepository.delete({ id });
     } catch (error) {
       console.log(error);
     }

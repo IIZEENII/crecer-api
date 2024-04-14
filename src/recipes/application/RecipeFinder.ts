@@ -2,16 +2,31 @@ import { Repository } from 'typeorm';
 import { Recipe } from '../domain/Recipe';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { PageDto } from '@src/shared/infrastructure/dtos/Page.dto';
+import { PageOptionsDto } from '@src/shared/infrastructure/dtos/PageOptions.dto';
+import { PageMetaDto } from '@src/shared/infrastructure/dtos/PageMeta.dto';
 
 @Injectable()
 export class RecipeFinder {
   constructor(
     @InjectRepository(Recipe)
     private readonly recipeRepository: Repository<Recipe>,
-  ) {}
+  ) { }
 
-  findAll(): Promise<Recipe[]> {
-    return this.recipeRepository.find();
+  async findAll(filterOptions: PageOptionsDto): Promise<PageDto<Recipe>> {
+    const queryBuilder =
+      this.recipeRepository.createQueryBuilder('recipe');
+
+    queryBuilder
+      .orderBy('recipe.title', filterOptions.order)
+      .skip(filterOptions.skip)
+      .take(filterOptions.take);
+
+    const itemCount = await queryBuilder.getCount();
+    const { entities } = await queryBuilder.getRawAndEntities();
+    const pageMeta = new PageMetaDto({ itemCount, pageOptionsDto: filterOptions });
+
+    return new PageDto(entities, pageMeta);
   }
 
   async findById(id: string): Promise<Recipe> {

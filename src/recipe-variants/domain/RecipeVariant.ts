@@ -1,6 +1,5 @@
 import { Ingredient } from 'src/ingredients/domain/Ingredient';
 import { Procedure } from '@src/procedures/domain/Producedure';
-import { Product } from '@src/products/domain/Product';
 import { Recipe } from '@src/recipes/domain/Recipe';
 
 import {
@@ -31,7 +30,4 @@ export class RecipeVariant {
 
   @ManyToOne(() => Recipe, (recipe) => recipe.variants, { onDelete: 'CASCADE' })
   recipe: Recipe;
-
-  @OneToOne(() => Product, (product) => product.recipeVariant)
-  product: Product;
 }

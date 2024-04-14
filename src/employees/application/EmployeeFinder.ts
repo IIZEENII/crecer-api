@@ -2,6 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Employee } from '../domain/Employee';
 import { Repository } from 'typeorm';
+import { PageDto } from '@src/shared/infrastructure/dtos/Page.dto';
+import { PageOptionsDto } from '@src/shared/infrastructure/dtos/PageOptions.dto';
+import { PageMetaDto } from '@src/shared/infrastructure/dtos/PageMeta.dto';
 
 @Injectable()
 export class EmployeeFinder {
@@ -10,8 +13,20 @@ export class EmployeeFinder {
     private readonly employeeRepository: Repository<Employee>,
   ) {}
 
-  async findAll(): Promise<Employee[]> {
-    return this.employeeRepository.find();
+  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<Employee>> {
+    const queryBuilder =
+      this.employeeRepository.createQueryBuilder('employees');
+
+    queryBuilder
+      .orderBy('employees.createdAt', pageOptionsDto.order)
+      .skip(pageOptionsDto.skip)
+      .take(pageOptionsDto.take);
+
+    const itemCount = await queryBuilder.getCount();
+    const { entities } = await queryBuilder.getRawAndEntities();
+    const pageMeta = new PageMetaDto({ itemCount, pageOptionsDto });
+
+    return new PageDto(entities, pageMeta);
   }
 
   async findById(id: string): Promise<Employee> {

@@ -1,5 +1,4 @@
 import { RecipeVariant } from '@src/recipe-variants/domain/RecipeVariant';
-import { Category } from '@src/shared/domain/Category';
 import {
   Column,
   Entity,
@@ -25,10 +24,7 @@ export class Product {
   @Column({ nullable: true })
   description: string;
 
-  @Column({ type: 'enum', enum: Category })
-  category: Category;
-
-  @OneToOne(() => RecipeVariant, (recipeVariant) => recipeVariant.product)
+  @OneToOne(() => RecipeVariant, { cascade: true, onDelete: 'CASCADE' })
   @JoinColumn()
   recipeVariant: RecipeVariant;
 }

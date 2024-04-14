@@ -2,6 +2,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Ingredient } from '../domain/Ingredient';
 import { Repository } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { PageOptionsDto } from '@src/shared/infrastructure/dtos/PageOptions.dto';
+import { PageMetaDto } from '@src/shared/infrastructure/dtos/PageMeta.dto';
+import { PageDto } from '@src/shared/infrastructure/dtos/Page.dto';
 
 @Injectable()
 export class IngredientsFinder {
@@ -18,8 +21,20 @@ export class IngredientsFinder {
     return ingredient;
   }
 
-  async findAll(): Promise<Ingredient[]> {
-    return this.ingredientRepository.find();
+  async findAll(filterOptions: PageOptionsDto): Promise<PageDto<Ingredient>> {
+    const queryBuilder =
+      this.ingredientRepository.createQueryBuilder('ingredient');
+
+    queryBuilder
+      .orderBy('ingredient.name', filterOptions.order)
+      .skip(filterOptions.skip)
+      .take(filterOptions.take);
+
+    const itemCount = await queryBuilder.getCount();
+    const { entities } = await queryBuilder.getRawAndEntities();
+    const pageMeta = new PageMetaDto({ itemCount, pageOptionsDto: filterOptions });
+
+    return new PageDto(entities, pageMeta);
   }
 
   async findWithRecipeVariantsById(id: string): Promise<Ingredient> {

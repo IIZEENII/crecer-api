@@ -13,6 +13,7 @@ import { RemoveIngredientParams } from './http/params/DeleteIngredientParams.dto
 import { AddIngredientsByIdDto } from './dtos/AddIngredientById.dto';
 import { CreateProcedureDto } from '@src/procedures/infrastructure/dtos/CreateProcedure.dto';
 import { UpdateRecipeVariantDto } from './dtos/UpdateRecipeVariant.dto';
+import { RecipeVariantDeleter } from '../application/RecipeVariantDeleter';
 
 @ApiBearerAuth()
 @ApiTags('Recipe variants')
@@ -22,6 +23,7 @@ export class RecipeVariantsController {
     private readonly recipeVariantFinder: RecipeVariantFinder,
     private readonly recipeVariantCopier: RecipeVariantCopier,
     private readonly recipeVariantUpdater: RecipeVariantUpdater,
+    private readonly recipeVariantDeleter: RecipeVariantDeleter,
     private readonly ingredientFinder: IngredientsFinder,
     private readonly ingredientAgregatorForRecipeVariant: IngredientAgregatorForRecipeVariant,
     private readonly ingredientRemoverToRecipeVariant: IngredientRemoverForRecipeVariant,
@@ -85,7 +87,8 @@ export class RecipeVariantsController {
 
   @Delete(':id')
   async remove(@Param() { id }: IdParam) {
-    console.log(id);
+    const recipeVariant = await this.recipeVariantFinder.findById(id);
+    await this.recipeVariantDeleter.delete(recipeVariant);
   }
 
   @Post(':id/procedures')

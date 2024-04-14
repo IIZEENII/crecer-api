@@ -28,12 +28,13 @@ export class RecipeVariantCopier {
     delete originalRecipeVariant.id;
     originalRecipeVariant.name = copyRecipeVariantDto.nameOfCopy;
 
-    await this.unitOfWork.recipeVariantRepository.save(originalRecipeVariant);
+    const newRecipeVariant = await this.unitOfWork.recipeVariantRepository.save(
+      originalRecipeVariant,
+    );
 
     await this.unitOfWork.productRepository.insert({
       name: originalRecipeVariant.name,
-      category: originalRecipeVariant.recipe.category,
-      recipeVariant: originalRecipeVariant,
+      recipeVariant: newRecipeVariant,
     });
 
     await this.unitOfWork.commitTransaction();

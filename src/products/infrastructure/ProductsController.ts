@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Query } from '@nestjs/common';
 import { Product } from '../domain/Product';
 import { ProductFinder } from '../application/ProductFinder';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -6,6 +6,9 @@ import { IdParam } from '@src/shared/infrastructure/http/params/IdParam.dto';
 import { ProductUpdater } from '../application/ProductUpdater';
 import { UpdateProductDto } from './dtos/UpdateProduct.dto';
 import { ProductDisabler } from '../application/ProductDisabler';
+import { ProductDto } from './dtos/Product.dto';
+import { PageOptionsDto } from '@src/shared/infrastructure/dtos/PageOptions.dto';
+import { PageDto } from '@src/shared/infrastructure/dtos/Page.dto';
 
 @ApiBearerAuth()
 @ApiTags('Products')
@@ -18,12 +21,14 @@ export class ProductsController {
   ) {}
 
   @Get()
-  async findAll(): Promise<Product[]> {
-    return this.productsFinder.findAll();
+  async findAll(
+    @Query() filterOptionsDto: PageOptionsDto
+  ): Promise<PageDto<ProductDto>> {
+    return this.productsFinder.findAll(filterOptionsDto);
   }
 
   @Get(':id')
-  async findById(@Param() { id }: IdParam): Promise<Product> {
+  async findById(@Param() { id }: IdParam): Promise<ProductDto> {
     return this.productsFinder.findById(id);
   }
 
@@ -39,6 +44,6 @@ export class ProductsController {
   @Delete(':id')
   async disable(@Param() { id }: IdParam): Promise<void> {
     const product = await this.productsFinder.findById(id);
-    return this.productDisabler.disable(product);
+    return this.productDisabler.disable(product.id);
   }
 }
