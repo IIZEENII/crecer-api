@@ -13,9 +13,10 @@ import { DeleteRecipeController } from './controllers/DeleteRecipe.controller';
 import { FindAllRecipesController } from './controllers/FindAllRecipes.controller';
 import { FindRecipeByIdController } from './controllers/FindRecipeById.controller';
 import { GenerateRecipePDFController } from './controllers/RecipesController';
+import { IngredientsModule } from '@src/ingredients/IngredientsModule';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Recipe])],
+  imports: [TypeOrmModule.forFeature([Recipe]), IngredientsModule],
   controllers: [
     CreateRecipeController,
     UpdateRecipeController,

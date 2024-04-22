@@ -10,7 +10,7 @@ export class GenerateRecipePDFController {
 
   //TODO: implement
   @Get(':id/to-pdf')
-  async generatedPDF(@Param() { id }: IdParam): Promise<void> {
+  async run(@Param() { id }: IdParam): Promise<void> {
     console.log(id);
   }
 }

@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Privacity } from '../enums/privacity';
-import { RecipeVariant } from '@src/recipe-variants/domain/RecipeVariant';
-import { Category } from '@src/shared/domain/Category';
+import { RecipeVariant } from '@src/recipeVariants/entities/RecipeVariant';
+import { Category } from '@src/shared/enums/Category';
 
 @Entity('recipes')
 export class Recipe {

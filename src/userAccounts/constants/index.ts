@@ -1,2 +1,2 @@
-export const CONTROLLER_NAME = 'user-accounts';
-export const CONTROLLER_TAG = 'User accounts';
+export const CONTROLLER_NAME = 'my-account';
+export const CONTROLLER_TAG = 'User account';

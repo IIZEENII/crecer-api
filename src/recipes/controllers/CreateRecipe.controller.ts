@@ -11,7 +11,7 @@ export class CreateRecipeController {
   constructor(private readonly createRecipeUseCase: CreateRecipeUsecase) {}
 
   @Post()
-  async create(@Body() createRecipeDto: CreateRecipeDto): Promise<void> {
+  async run(@Body() createRecipeDto: CreateRecipeDto): Promise<void> {
     return this.createRecipeUseCase.execute(createRecipeDto);
   }
 }

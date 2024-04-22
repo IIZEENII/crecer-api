@@ -5,7 +5,7 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Role } from '@src/employees/domain/Role';
+import { Role } from '@src/employees/enums/Role';
 import { ROLES_KEY } from '../decorators/Roles';
 
 @Injectable()

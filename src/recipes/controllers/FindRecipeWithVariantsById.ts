@@ -12,7 +12,7 @@ export class FindRecipeByIdController {
   constructor(private readonly usecase: FindRecipeWithVariantByIdUsecase) {}
 
   @Get(':id/variants')
-  async findWithVariantsById(@Param() { id }: IdParam): Promise<Recipe> {
+  async run(@Param() { id }: IdParam): Promise<Recipe> {
     return this.usecase.execute(id);
   }
 }

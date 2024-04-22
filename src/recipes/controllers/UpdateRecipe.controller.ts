@@ -16,7 +16,7 @@ export class UpdateRecipeController {
   ) {}
 
   @Patch(':id')
-  async update(
+  async run(
     @Param() { id }: IdParam,
     @Body() updateRecipeDto: UpdateRecipeDto,
   ): Promise<void> {

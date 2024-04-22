@@ -1,5 +1,5 @@
 import { Privacity } from '@src/recipes/enums/privacity';
-import { Category } from '@src/shared/domain/Category';
+import { Category } from '@src/shared/enums/Category';
 import { IsEnum, Length } from 'class-validator';
 
 export class CreateRecipeDto {

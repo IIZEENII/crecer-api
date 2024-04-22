@@ -15,7 +15,7 @@ export class DeleteRecipeController {
   ) {}
 
   @Delete(':id')
-  async delete(@Param() { id }: IdParam): Promise<void> {
+  async run(@Param() { id }: IdParam): Promise<void> {
     const recipe = await this.findRecipeByIdUsecase.execute(id);
     return this.deleteRecipeUsecase.execute(recipe);
   }

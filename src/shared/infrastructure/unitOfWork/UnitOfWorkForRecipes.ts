@@ -3,10 +3,10 @@ import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager, QueryRunner, Repository } from 'typeorm';
 import { UnitOfWork } from './UnitOfWork';
 import { Recipe } from '@src/recipes/entities/recipe';
-import { RecipeVariant } from '@src/recipe-variants/domain/RecipeVariant';
-import { Product } from '@src/products/domain/Product';
-import { Ingredient } from '@src/ingredients/domain/Ingredient';
-import { Procedure } from '@src/procedures/domain/Producedure';
+import { RecipeVariant } from '@src/recipeVariants/entities/RecipeVariant';
+import { Product } from '@src/products/entities/product';
+import { Ingredient } from '@src/ingredients/entities/ingredient';
+import { Procedure } from '@src/procedures/entities/Producedure';
 
 @Injectable()
 export class UnitOfWorkForRecipes implements UnitOfWork {

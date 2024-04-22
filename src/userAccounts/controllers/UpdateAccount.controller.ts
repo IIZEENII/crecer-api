@@ -2,7 +2,7 @@ import { Body, Controller, Patch, Request } from '@nestjs/common';
 import { UpdateAccountUseCase } from '../usecases/UpdateAccount.usecase';
 import { CONTROLLER_NAME, CONTROLLER_TAG } from '../constants';
 import { UpdateUserAccountDto } from '../dtos/UpdateUserAccount.dto';
-import { FindAccountUseCase } from '../usecases/FindAccountById.usecase';
+import { FindAccountByIdUsecase } from '../usecases/FindAccountById.usecase';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiBearerAuth()
@@ -10,12 +10,12 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @Controller(CONTROLLER_NAME)
 export class UpdateAccountController {
   constructor(
-    private readonly findAccountUseCase: FindAccountUseCase,
+    private readonly findAccountUseCase: FindAccountByIdUsecase,
     private readonly updateAccountUseCase: UpdateAccountUseCase,
   ) {}
 
   @Patch()
-  async update(
+  async run(
     @Request() request: any,
     @Body() updateUserAccountDto: UpdateUserAccountDto,
   ) {

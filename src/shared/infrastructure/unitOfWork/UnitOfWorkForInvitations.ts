@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager, QueryRunner, Repository } from 'typeorm';
 import { UnitOfWork } from './UnitOfWork';
-import { Employee } from '@src/employees/domain/Employee';
-import { InvitedAccount } from '@src/invitedAccounts/domain/InvitedAccount';
+import { InvitedAccount } from '@src/invitedAccounts/entities/InvitedAccount';
+import { Employee } from '@src/employees/entities/Employee';
 
 @Injectable()
 export class UnitOfWorkForInvitations implements UnitOfWork {

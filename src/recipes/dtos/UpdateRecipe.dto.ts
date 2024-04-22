@@ -1,6 +1,6 @@
 import { Privacity } from '@src/recipes/enums/privacity';
 import { IsEnum, Length } from 'class-validator';
-import { Category } from '@src/shared/domain/Category';
+import { Category } from '@src/shared/enums/Category';
 
 export class UpdateRecipeDto {
   @Length(1, 64)

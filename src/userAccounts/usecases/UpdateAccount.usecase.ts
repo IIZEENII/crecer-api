@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { UpdateUserAccountDto } from '../dtos/UpdateUserAccount.dto';
 import { Repository } from 'typeorm';
-import { Employee } from '@src/employees/domain/Employee';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Employee } from '@src/employees/entities/Employee';
 
 @Injectable()
 export class UpdateAccountUseCase {

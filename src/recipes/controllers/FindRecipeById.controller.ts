@@ -12,7 +12,7 @@ export class FindRecipeByIdController {
   constructor(private readonly findRecipeByIdUsecase: FindRecipeByIdUsecase) {}
 
   @Get(':id')
-  async findById(@Param() { id }: IdParam): Promise<Recipe> {
+  async run(@Param() { id }: IdParam): Promise<Recipe> {
     return this.findRecipeByIdUsecase.execute(id);
   }
 }

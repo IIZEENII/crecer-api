@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Employee } from '@src/employees/domain/Employee';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Employee } from '@src/employees/entities/Employee';
 
 @Injectable()
-export class FindAccountUseCase {
+export class FindAccountByIdUsecase {
   constructor(
     @InjectRepository(Employee)
     private readonly repository: Repository<Employee>,

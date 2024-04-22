@@ -13,9 +13,7 @@ export class FindAllRecipesController {
   constructor(private readonly findAllRecipesUsecase: FindAllRecipesUsecase) {}
 
   @Get()
-  async findAll(
-    @Query() pageOptionsDto: PageOptionsDto,
-  ): Promise<PageDto<Recipe>> {
+  async run(@Query() pageOptionsDto: PageOptionsDto): Promise<PageDto<Recipe>> {
     return this.findAllRecipesUsecase.execute(pageOptionsDto);
   }
 }

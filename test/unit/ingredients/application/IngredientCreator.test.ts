@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { IngredientCreator } from '@src/ingredients/application/IngredientCreator';
-import { Ingredient } from '@src/ingredients/domain/Ingredient';
-import { UnitType } from '@src/ingredients/domain/UnitType';
+import { Ingredient } from '@src/ingredients/entities/ingredient';
+import { UnitType } from '@src/ingredients/enums/UnitType';
 import { Repository } from 'typeorm';
 
 describe('Ingredient Creator Use Case', () => {
