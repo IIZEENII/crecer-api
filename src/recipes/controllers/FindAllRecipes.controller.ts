@@ -5,6 +5,7 @@ import { PageOptionsDto } from '@src/shared/infrastructure/dtos/PageOptions.dto'
 import { Recipe } from '../entities/recipe';
 import { PageDto } from '@src/shared/infrastructure/dtos/Page.dto';
 import { FindAllRecipesUsecase } from '../usecases/FindAllRecipes.usecase';
+import { PublicRoute } from '@src/shared/infrastructure/decorators/PublicRoute';
 
 @ApiBearerAuth()
 @ApiTags(CONTROLLER_TAG)
@@ -12,6 +13,8 @@ import { FindAllRecipesUsecase } from '../usecases/FindAllRecipes.usecase';
 export class FindAllRecipesController {
   constructor(private readonly findAllRecipesUsecase: FindAllRecipesUsecase) {}
 
+  //TODO: Temporally remove protection
+  @PublicRoute()
   @Get()
   async run(@Query() pageOptionsDto: PageOptionsDto): Promise<PageDto<Recipe>> {
     return this.findAllRecipesUsecase.execute(pageOptionsDto);

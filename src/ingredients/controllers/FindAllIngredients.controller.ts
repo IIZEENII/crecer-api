@@ -13,6 +13,8 @@ import { PublicRoute } from '@src/shared/infrastructure/decorators/PublicRoute';
 export class FindAllIngredientsController {
   constructor(private readonly findAllIngredients: FindAllIngredientsUsecase) {}
 
+  // Temporally remove protection
+  @PublicRoute()
   @Get()
   async run(
     @Query() pageOptionsDto: PageOptionsDto,

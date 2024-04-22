@@ -16,6 +16,7 @@ import { ProductDisabler } from '../usecases/ProductDisabler';
 import { ProductDto } from '../dtos/Product.dto';
 import { PageOptionsDto } from '@src/shared/infrastructure/dtos/PageOptions.dto';
 import { PageDto } from '@src/shared/infrastructure/dtos/Page.dto';
+import { PublicRoute } from '@src/shared/infrastructure/decorators/PublicRoute';
 
 @ApiBearerAuth()
 @ApiTags('Products')
@@ -25,8 +26,10 @@ export class ProductsController {
     private readonly productsFinder: ProductFinder,
     private readonly productUpdater: ProductUpdater,
     private readonly productDisabler: ProductDisabler,
-  ) {}
+  ) { }
 
+  //TODO: Temporally remove protection
+  @PublicRoute()
   @Get()
   async findAll(
     @Query() filterOptionsDto: PageOptionsDto,

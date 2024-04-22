@@ -14,16 +14,19 @@ import { Roles } from '@src/shared/infrastructure/decorators/Roles';
 import { RolesGuard } from '@src/shared/infrastructure/guards/RolesGuard';
 import { PageOptionsDto } from '@src/shared/infrastructure/dtos/PageOptions.dto';
 import { PageDto } from '@src/shared/infrastructure/dtos/Page.dto';
+import { PublicRoute } from '@src/shared/infrastructure/decorators/PublicRoute';
 
 @ApiBearerAuth()
 @ApiTags('Employees')
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('employees')
-@UseGuards(RolesGuard)
-@Roles(Role.MOTHER_ADMIN)
+// @UseGuards(RolesGuard)
+// @Roles(Role.MOTHER_ADMIN)
 export class FindAllEmployeesController {
-  constructor(private readonly employeFinder: EmployeeFinder) {}
+  constructor(private readonly employeFinder: EmployeeFinder) { }
 
+  //TODO: Temporally remove protection
+  @PublicRoute()
   @Get()
   async run(
     @Query() pageOptionsDto: PageOptionsDto,
